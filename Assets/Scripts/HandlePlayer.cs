@@ -5,6 +5,7 @@ using UnityEngine;
 public class HandlePlayer : MonoBehaviour
 {
     public float speed;
+    public Vector2 aim;
     private Rigidbody2D rb;
     // Start is called before the first frame update
     void Start()
@@ -16,6 +17,10 @@ public class HandlePlayer : MonoBehaviour
     void Update()
     {
         HandleMove();
+
+        HandleAttack();
+
+        HandleAim();
     }
 
     void HandleMove() 
@@ -31,7 +36,17 @@ public class HandlePlayer : MonoBehaviour
 
     void HandleAttack()
     {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            print("Pum te pego");
+        }
+    }
 
+    void HandleAim()
+    {
+        aim = Input.mousePosition;
+        print(Vector2.Angle(transform.position, aim));
+        transform.rotation = Quaternion.Euler(0, 0, Vector2.Angle(transform.position, aim));
     }
 
     void HandleDeath()

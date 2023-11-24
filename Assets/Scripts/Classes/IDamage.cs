@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IDamage
 {
-    private void HandleAim();
+    private void HandleAim() {}
 }

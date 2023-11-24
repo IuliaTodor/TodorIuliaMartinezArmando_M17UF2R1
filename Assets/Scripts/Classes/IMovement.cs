@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IMovement
 {
-    public float speed;
-    private void HandleMove();
+    public float speed {get;set;}
+    private void HandleMove() {}
 }

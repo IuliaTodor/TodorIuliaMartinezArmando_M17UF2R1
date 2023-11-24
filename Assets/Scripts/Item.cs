@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Item : MonoBehaviour, IPickable
 {
-    public string name;
+    public string itemName;
     public Sprite image;
     public int itemAmount;
 

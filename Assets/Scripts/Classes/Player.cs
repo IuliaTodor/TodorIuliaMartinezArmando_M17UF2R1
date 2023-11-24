@@ -6,10 +6,13 @@ public class Player : Character, IHealth, IDamage
 {
     public Inventory inventory;
     public Weapon activeWeapon;
+    public int health {get;set;}
+    public bool isDead {get;set;}
     // Start is called before the first frame update
     void Start()
     {
-        
+        health = 0;
+        isDead = false;
     }
 
     // Update is called once per frame
@@ -17,4 +20,7 @@ public class Player : Character, IHealth, IDamage
     {
         
     }
+
+    private void HandleDeath() {}
+    public void HandleDamage() {}
 }

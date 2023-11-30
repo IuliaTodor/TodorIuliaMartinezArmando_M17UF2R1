@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class HandlePlayer : MonoBehaviour
 {
+    public Camera camera;
     public float speed;
     public Vector2 aim;
     private Rigidbody2D rb;
@@ -44,13 +46,17 @@ public class HandlePlayer : MonoBehaviour
 
     void HandleAim()
     {
-        aim = Input.mousePosition;
-        print(Vector2.Angle(transform.position, aim));
-        transform.rotation = Quaternion.Euler(0, 0, Vector2.Angle(transform.position, aim));
+        aim = camera.ScreenToWorldPoint(Input.mousePosition);
+        transform.rotation = Quaternion.Euler(0, 0, Convert.ToSingle(getAngle(transform.position, aim)));
     }
 
     void HandleDeath()
     {
 
     }
+
+    public double getAngle(Vector2 me, Vector2 target) {
+    	return Math.Atan2(target.y - me.y, target.x - me.x) * (180/Math.PI);
+    }
+
 }

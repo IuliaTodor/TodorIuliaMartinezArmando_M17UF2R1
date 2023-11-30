@@ -288,6 +288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e46475322e5076a44a93b2fbb3de1353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 1685179045}
   speed: 10
   aim: {x: 0, y: 0}
 --- !u!212 &1964552188

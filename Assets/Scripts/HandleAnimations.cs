@@ -6,9 +6,6 @@ public class HandleAnimations : MonoBehaviour
 {
     private Animator _animator;
 
-    //Transforma en una variable con un id los parámetros del Animator
-    private int characterDeath = Animator.StringToHash("isDead");
-
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -21,17 +18,12 @@ public class HandleAnimations : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            _animator.SetBool(characterDeath, false);
-
-        }
         
     }
 
     private void characterDeathResponse()
     {
-        _animator.SetBool(characterDeath, true);
+        _animator.SetBool(GameManager.instance.characterDeath, true);
 
         Debug.Log("rip");
     }

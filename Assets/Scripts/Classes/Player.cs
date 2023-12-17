@@ -23,68 +23,84 @@ public class Player : Character, IHealth, IDamage
         get { return _maxHealth; }
         set { _maxHealth = value; }
     }
-
     public bool isDead { get; set; }
 
     public static Action characterDeathEvent;
+
+    public BoxCollider2D boxCollider2D;
+    public Animator animator;
+
+    void Awake()
+    {
+        boxCollider2D = GetComponent<BoxCollider2D>();
+        animator = GetComponent<Animator>();
+    }
+
     void Start()
     {
         health = maxHealth;
         isDead = false;
+        UIManager.instance.UpdateCharacterHealth(health, maxHealth);
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
-            HandleDamage(10);
+            HandleDamage(1);
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            RestoreHealth(10);
+            RestoreHealth(2);
         }
     }
 
     //Death logic
     public void HandleDeath()
     {
+        isDead = true;
+        boxCollider2D.enabled = false;
         characterDeathEvent?.Invoke(); //El ? significa "si no es null". Es decir, si no es null que haga Invoke.
     }
 
+    public void HandleRespawn()
+    {
+        boxCollider2D.enabled = true;
+        isDead = true;
+        health = maxHealth;
+        UIManager.instance.UpdateCharacterHealth(health, maxHealth);
+        animator.SetBool(GameManager.instance.characterDeath, false);
+        
+    }
 
+    //When the player recieves damage
     public void HandleDamage(int damageTaken)
     {
         if (health > 0)
         {
             health -= damageTaken;
-            UpdateLifebar(health, maxHealth);
+            UIManager.instance.UpdateCharacterHealth(health, maxHealth);
 
             if (health <= 0)
             {
-                UpdateLifebar(health, maxHealth);
-                isDead = true;
+                UIManager.instance.UpdateCharacterHealth(health, maxHealth);
                 HandleDeath();
             }
         }
     }
-
-    public void UpdateLifebar(float health, float maxHealth)
-    {
-        // Implement your life bar update logic here
-    }
-
     public void RestoreHealth(int healthRestored)
     {
-        if (health < maxHealth)
+        //Restaura vida si al jugador le queda vida y no está muerto 
+        if (health < maxHealth && !isDead)
         {
             health += healthRestored;
 
+            //Así la vida no supera a la máxima si recupera más del total
             if (health > maxHealth)
             {
                 health = maxHealth;
             }
-
-            UpdateLifebar(health, maxHealth);
+            UIManager.instance.UpdateCharacterHealth(health, maxHealth);
         }
     }
 }

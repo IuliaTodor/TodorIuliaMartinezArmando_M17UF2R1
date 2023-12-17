@@ -5,7 +5,15 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     public Item[] items;
-    // Start is called before the first frame update
+    [SerializeField] public int slotsNumber;
+    public static Inventory instance;
+
+    private void Awake()
+    {
+        items = new Item[slotsNumber];
+        instance = this;
+    }
+
     void Start()
     {
         

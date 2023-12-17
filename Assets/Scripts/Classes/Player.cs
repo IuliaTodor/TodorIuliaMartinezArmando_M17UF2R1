@@ -29,9 +29,11 @@ public class Player : Character, IHealth, IDamage
 
     public BoxCollider2D boxCollider2D;
     public Animator animator;
+    public static Player instance;
 
     void Awake()
     {
+        instance = this;
         boxCollider2D = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
     }

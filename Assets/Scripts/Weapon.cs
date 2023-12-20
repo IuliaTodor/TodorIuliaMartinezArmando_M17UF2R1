@@ -9,6 +9,14 @@ public class Weapon : MonoBehaviour //Debería heredar de Item
     [SerializeField] public int maxAmmo;
 
     public int damage;
+
+    public static Weapon instance;
+
+    private void Awake()
+    {
+        instance = this; 
+    }
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -44,12 +52,19 @@ public class Weapon : MonoBehaviour //Debería heredar de Item
         }
     }
 
-    public void RegenerateAmmo(int ammoRegenereateQuantity)
+    public void RegenerateAmmo(int ammoRegenerateQuantity)
     {
-        if (Player.instance.health > 0f && ammo < maxAmmo)
+        //Restaura vida si al jugador le queda vida y no está muerto 
+        if (ammo < maxAmmo && !Player.instance.isDead)
         {
-            ammo += ammoRegenereateQuantity;
-            UpdateAmmoBar();
+            ammo += ammoRegenerateQuantity;
+
+            //Así la vida no supera a la máxima si recupera más del total
+            if (ammo > maxAmmo)
+            {
+                ammo = maxAmmo;
+            }
+            UIManager.instance.UpdateCharacterAmmo(ammo, maxAmmo);
         }
     }
 

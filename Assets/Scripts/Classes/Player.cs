@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : Character, IHealth, IDamage
 {
@@ -9,7 +10,7 @@ public class Player : Character, IHealth, IDamage
     public Weapon activeWeapon;
 
     [SerializeField]
-    private int _health; //Esta propiedad solo es para que aparezca en el inspector, ya que el get set no lo permitía. Lo mismo para maxHealth
+    private int _health; //Esta propiedad solo es para que aparezca en el inspector, ya que el get set no lo permitï¿½a. Lo mismo para maxHealth
     public int health
     {
         get { return _health; }
@@ -28,14 +29,45 @@ public class Player : Character, IHealth, IDamage
     public static Action characterDeathEvent;
 
     public BoxCollider2D boxCollider2D;
+    private Rigidbody2D rb;
     public Animator animator;
     public static Player instance;
+    // de nuestra clase Inputs, del new input system
+    private Inputs input;
+    private Vector2 movementVector = Vector2.zero;
 
     void Awake()
     {
         instance = this;
         boxCollider2D = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        input = new Inputs();
+        speed = 10f;
+    }
+
+    void OnEnable()
+    {
+        input.Enable();
+        input.Player.Movement.performed += OnMovementPerformed;
+        input.Player.Movement.canceled += OnMovementCancelled;
+    }
+    void OnDisable()
+    {
+        input.Disable();
+        input.Player.Movement.performed -= OnMovementPerformed;
+        input.Player.Movement.canceled -= OnMovementCancelled;
+    }
+
+    void OnMovementPerformed(InputAction.CallbackContext value)
+    {
+        movementVector = value.ReadValue<Vector2>();
+        animator.SetFloat("XMovement", value.ReadValue<Vector2>().x);
+        animator.SetFloat("YMovement", value.ReadValue<Vector2>().y);
+    }
+    void OnMovementCancelled(InputAction.CallbackContext value)
+    {
+        movementVector = Vector2.zero;
     }
 
     void Start()
@@ -55,6 +87,11 @@ public class Player : Character, IHealth, IDamage
         {
             RestoreHealth(2);
         }
+    }
+
+    private void FixedUpdate() 
+    {
+        rb.velocity = movementVector * speed;
     }
 
     //Death logic
@@ -92,12 +129,12 @@ public class Player : Character, IHealth, IDamage
     }
     public void RestoreHealth(int healthRestored)
     {
-        //Restaura vida si al jugador le queda vida y no está muerto 
+        //Restaura vida si al jugador le queda vida y no estï¿½ muerto 
         if (health < maxHealth && !isDead)
         {
             health += healthRestored;
 
-            //Así la vida no supera a la máxima si recupera más del total
+            //Asï¿½ la vida no supera a la mï¿½xima si recupera mï¿½s del total
             if (health > maxHealth)
             {
                 health = maxHealth;

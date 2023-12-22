@@ -13,21 +13,34 @@ public class Item : ScriptableObject, IPickable
     public string ID;
     public string itemName;
     public Sprite image;
-    [TextArea]public string description; //Para que se pueda escribir más
+    [TextArea] public string description; //Para que se pueda escribir más
     public ItemTypes type;
     public bool isConsumible;
     public bool isStackable;
     public int maxAmount;
+    public int amount;
 
-    [HideInInspector] public int amount;
-
-    void Start()
+    //Crea una nueva instancia del objeto
+    public Item CopyItem()
     {
-        
+        Item newInstance = Instantiate(this);
+        return newInstance;
     }
 
-    void Update()
+    public virtual bool UseItem()
     {
-        
+        return true;
     }
+
+    public virtual bool EquipItem()
+    {
+        return true;
+    }
+
+    public virtual bool DiscardItem()
+    {
+        return true;
+    }
+
+
 }

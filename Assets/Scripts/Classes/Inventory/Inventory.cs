@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public Item[] items;
+
     [SerializeField] public int slotsNumber;
+    public Item[] items;
+
     public static Inventory instance;
 
     private void Awake()
@@ -16,15 +18,15 @@ public class Inventory : MonoBehaviour
 
     void Start()
     {
-        items = new Item[slotsNumber];
+        items = new Item[slotsNumber]; //Inicializa los items con el número de slots
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    /// <summary>
+    /// Añade un item al inventario con una cierta cantidad. Comprueba si el item es stackeable y si ya hay items de este tipo en el inventario. Entonces los añade al inventario
+    /// cumpliendo ciertos criterios
+    /// </summary>
+    /// <param name="itemToAdd"></param>
+    /// <param name="quantity"></param>
     public void AddItem(Item itemToAdd, int quantity)
     {
         if (itemToAdd == null || quantity <= 0)
@@ -82,9 +84,11 @@ public class Inventory : MonoBehaviour
     }
     //Como hay un número fijo de slots, el ID del slot corresponderá al del objeto en ese slot
 
-    //Verifica si en el inventario hay algún item con el ID del que vamos a añadir.
-    //Si es así la función guarda los índex de los slot de los objetos que hay en el inventario en la lista
-    //Así pues, en la lista tendríamos los índex de los dos slots con los objetos
+    /// <summary>
+    /// Verifica si en el inventario hay algún item con el ID del que vamos a añadir. Si es así guarda los índex de los slot de los objetos que hay en el inventario en la lista.
+    /// </summary>
+    /// <param name="itemID"></param>
+    /// <returns></returns>
     private List<int> VerifyExistingItem(string itemID)
     {
         List<int> itemIndex = new List<int>();
@@ -103,7 +107,11 @@ public class Inventory : MonoBehaviour
         return itemIndex;
     }
 
-    //Añade objeto en un slot vacío
+    /// <summary>
+    /// Añade un item en un nuevo slot si hay uno vacío
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="quantity"></param>
     private void AddItemOnNewSlot(Item item, int quantity)
     {
         for (int i = 0; i < items.Length; i++)
@@ -119,7 +127,10 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    //Eliminamos de la cantidad del item, y si ya no hay lo quitamos del inventario
+    /// <summary>
+    /// Cuando un objeto es usado, disminuye la cantidad de este, y si se vuelve cero lo elimina del inventario.
+    /// </summary>
+    /// <param name="index"></param>
     private void DeleteItem(int index)
     {
         items[index].amount--;
@@ -137,6 +148,11 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Mueve un item de un slot a otro en el inventario
+    /// </summary>
+    /// <param name="initialIndex"></param>
+    /// <param name="finalIndex"></param>
     public void MoveItem(int initialIndex, int finalIndex)
     {
         //Comrpobamos si el slot inicial tiene un item y si el slot final no tiene ya un item
@@ -156,6 +172,10 @@ public class Inventory : MonoBehaviour
     }
 
     //Verificamos si se puede usar el item, y si es así eliminamos uno de su cantidad
+    /// <summary>
+    /// Comprueba si el item puede ser usado mediante la función UseItem de la clase Item
+    /// </summary>
+    /// <param name="index"></param>
     private void UseItem(int index)
     {
         if (items[index] == null)
@@ -181,7 +201,6 @@ public class Inventory : MonoBehaviour
                 break;
             case interactionType.Discard:
                 break;
-
         }
     }
 
@@ -197,21 +216,4 @@ public class Inventory : MonoBehaviour
         InventorySlot.eventSlotInteraction -= SlotInteractionResponse;
     }
     #endregion
-
-    public void OpenInventory()
-    {
-
-    }
-
-
-    public void CloseInventory()
-    {
-
-    }
-
-
-    public void SelectItem()
-    {
-
-    }
 }

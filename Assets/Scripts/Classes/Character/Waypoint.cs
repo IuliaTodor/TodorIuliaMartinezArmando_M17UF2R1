@@ -8,10 +8,17 @@ public class Waypoint : MonoBehaviour
     public Vector3 currentPosition { get; set; } //La posición actual del NPC
     private bool isGameInitialized;
 
+
     private void Start()
     {
         isGameInitialized = true;
         currentPosition = transform.position;
+    }
+
+    //Para saber la posición del punto al cual nos queremos mover
+    public Vector3 GetMovementPosition(int index)
+    {
+        return currentPosition + points[index];
     }
     private void OnDrawGizmos()
     {

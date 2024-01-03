@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,31 +22,37 @@ public class DialogueManager : MonoBehaviour
 
     private void Start()
     {
-       dialogueSequence = new Queue<string>();
+        dialogueSequence = new Queue<string>();
     }
 
     private void Update()
     {
-        if(AvailableNPC == null)
+        if (AvailableNPC == null)
         {
             return;
         }
 
-        if(Input.GetKeyUp(KeyCode.E))
+        if (Input.GetKeyUp(KeyCode.E))
         {
             ManageDialogueBox(AvailableNPC.npcDialogue);
         }
 
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            if(showFinalText)
+            if (showFinalText)
             {
                 OpenCloseDialogue(false);
-                showFinalText= false;
+                showFinalText = false;
                 return;
             }
 
-            if(animatedDialogue)
+            if (AvailableNPC.npcDialogue.hasExtraInteraction)
+            {
+                ExtraInteraction();
+                return;
+            }
+
+            if (animatedDialogue)
             {
                 ContinueDialogue();
             }
@@ -76,7 +83,10 @@ public class DialogueManager : MonoBehaviour
 
     private void ShowDialogueSequence(NPCDialogue NPCdialogue)
     {
-        if(NPCdialogue.dialogue == null || NPCdialogue.dialogue.Length <= 0)
+        dialogueSequence.Clear();
+
+
+        if (NPCdialogue.dialogue == null || NPCdialogue.dialogue.Length <= 0)
         {
             return;
         }
@@ -92,26 +102,57 @@ public class DialogueManager : MonoBehaviour
 
     private void ContinueDialogue()
     {
-        if(AvailableNPC == null)
+        if (AvailableNPC == null)
         {
             return;
         }
 
-        if(showFinalText)
+        if (showFinalText)
         {
             return;
         }
 
-        if(dialogueSequence.Count == 0)
+        if (animatedDialogue)
         {
-            string finalText = AvailableNPC.npcDialogue.finalText;
-            ShowAnimatedText(finalText);
-            showFinalText = true;
-            return;
+            if (dialogueSequence.Count == 0)
+            {
+                string finalText = AvailableNPC.npcDialogue.finalText;
+                ShowAnimatedText(finalText);
+                showFinalText = true;
+                return;
+            }
+
+            string nextDialogue = dialogueSequence.Dequeue();
+            ShowAnimatedText(nextDialogue);
         }
 
-        string nextDialogue = dialogueSequence.Dequeue();
-        ShowAnimatedText(nextDialogue);
+    }
+
+    private void GiveItem()
+    {
+        string giveItemText = "Has obtenido: " + AvailableNPC.npcDialogue.NPCGiveItem.itemName;
+        ShowAnimatedText(giveItemText);
+        Inventory.instance.AddItem(AvailableNPC.npcDialogue.NPCGiveItem, AvailableNPC.npcDialogue.NPCGiveItemAmount);
+        showFinalText = true;
+        bool hasGivenItem = true;
+
+        if (hasGivenItem)
+        {
+            AvailableNPC.npcDialogue.hasExtraInteraction = false;
+            //ShowAnimatedText(AvailableNPC.npcDialogue.afterExtraInteractionText);
+        }
+    }
+
+    private void ExtraInteraction()
+    {
+        switch (AvailableNPC.npcDialogue.extraInteraction)
+        {
+            case extraNPCInteraction.GiveItem:
+                GiveItem();
+                break;
+            case extraNPCInteraction.Shop:
+                break;
+        }
     }
 
     private IEnumerator AnimateText(string text)

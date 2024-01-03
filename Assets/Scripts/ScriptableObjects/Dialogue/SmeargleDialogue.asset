@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5bf91e862bf04a4aab359ed933d19d7, type: 3}
-  m_Name: ElectabuzzItemDialogue
+  m_Name: SmeargleDialogue
   m_EditorClassIdentifier: 
   NPCName: Electabuzz
   icon: {fileID: 21300000, guid: 24c8ec6197095e54fb8638ae3f0f3b63, type: 3}
@@ -19,7 +19,8 @@ MonoBehaviour:
   NPCGiveItem: {fileID: 11400000, guid: fc0de1d3471ea2c4790dcff3601ee84d, type: 2}
   NPCGiveItemAmount: 1
   requiredItemForExchange: {fileID: 0}
-  initialText: Hola amigo
+  initialText: "Tengo hambre, tienes un rico kebab? Te lo cambio por esta caja que
+    me encontr\xE9 por ah\xED"
   dialogue: []
   finalText: 
   afterExtraInteractionText: Rico Kebab :^)

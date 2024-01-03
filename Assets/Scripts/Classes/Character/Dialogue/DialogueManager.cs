@@ -96,8 +96,6 @@ public class DialogueManager : MonoBehaviour
         {
             dialogueSequence.Enqueue(NPCdialogue.dialogue[i].Dialoguetext);
         }
-
-
     }
 
     private void ContinueDialogue()
@@ -143,12 +141,34 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    private void ExchangeItem()
+    {
+        List<int> indexCount = Inventory.instance.VerifyExistingItem(AvailableNPC.npcDialogue.requiredItemForExchange.ID);
+
+        if (indexCount.Count > 0)
+        {
+            for (int i = 0; i < indexCount.Count; i++)
+            {
+                if (Inventory.instance.items[indexCount[i]].ID == AvailableNPC.npcDialogue.requiredItemForExchange.ID)
+                {
+                    Inventory.instance.DeleteItem(indexCount[i]);
+                    Inventory.instance.AddItem(AvailableNPC.npcDialogue.NPCGiveItem, AvailableNPC.npcDialogue.NPCGiveItemAmount);
+                    GiveItem();
+                    return;
+                }
+            }
+        }
+    }
+
     private void ExtraInteraction()
     {
         switch (AvailableNPC.npcDialogue.extraInteraction)
         {
             case extraNPCInteraction.GiveItem:
                 GiveItem();
+                break;
+            case extraNPCInteraction.Exchange:
+                ExchangeItem();
                 break;
             case extraNPCInteraction.Shop:
                 break;

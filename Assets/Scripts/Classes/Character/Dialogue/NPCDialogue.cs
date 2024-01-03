@@ -7,6 +7,7 @@ using UnityEngine;
 public enum extraNPCInteraction
 {
     GiveItem,
+    Exchange,
     Shop,
 }
 
@@ -19,6 +20,7 @@ public class NPCDialogue : ScriptableObject
     public extraNPCInteraction extraInteraction;
     public Item NPCGiveItem;
     public int NPCGiveItemAmount;
+    public Item requiredItemForExchange;
     
 
     [TextArea]public string initialText;

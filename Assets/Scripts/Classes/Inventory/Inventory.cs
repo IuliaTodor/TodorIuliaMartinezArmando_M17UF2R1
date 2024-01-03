@@ -89,7 +89,7 @@ public class Inventory : MonoBehaviour
     /// </summary>
     /// <param name="itemID"></param>
     /// <returns></returns>
-    private List<int> VerifyExistingItem(string itemID)
+    public List<int> VerifyExistingItem(string itemID)
     {
         List<int> itemIndex = new List<int>();
 
@@ -131,7 +131,7 @@ public class Inventory : MonoBehaviour
     /// Cuando un objeto es usado, disminuye la cantidad de este, y si se vuelve cero lo elimina del inventario.
     /// </summary>
     /// <param name="index"></param>
-    private void DeleteItem(int index)
+    public void DeleteItem(int index)
     {
         items[index].amount--;
 

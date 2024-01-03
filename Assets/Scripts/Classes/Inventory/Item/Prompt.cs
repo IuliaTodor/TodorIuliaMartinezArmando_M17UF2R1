@@ -11,7 +11,7 @@ public class Prompt : Item
     {
        if (!Player.instance.isDead)
        {
-         Player.instance.RestoreHealth(2);
+         Player.instance.RestoreHealth(1);
          Debug.Log(Player.instance.health);
          return true;
        }

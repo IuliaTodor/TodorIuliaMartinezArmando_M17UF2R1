@@ -127,6 +127,54 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "RoomManager",
+            "id": "a909d453-ff97-40b8-a78d-11ce9c801123",
+            "actions": [
+                {
+                    "name": "Save",
+                    "type": "Button",
+                    "id": "8881aa29-b25a-4a38-9b72-f4bc6889a3d1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Load",
+                    "type": "Button",
+                    "id": "52de0395-47cb-4edc-a081-730057741d80",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "65563ca2-e0bc-4d90-8f5d-1672c598ac84",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Save",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dfc5382c-6dc0-448e-8732-9f87e9fbe07f",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Load",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

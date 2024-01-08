@@ -149,6 +149,54 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""RoomManager"",
+            ""id"": ""a909d453-ff97-40b8-a78d-11ce9c801123"",
+            ""actions"": [
+                {
+                    ""name"": ""Save"",
+                    ""type"": ""Button"",
+                    ""id"": ""8881aa29-b25a-4a38-9b72-f4bc6889a3d1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Load"",
+                    ""type"": ""Button"",
+                    ""id"": ""52de0395-47cb-4edc-a081-730057741d80"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""65563ca2-e0bc-4d90-8f5d-1672c598ac84"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Save"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dfc5382c-6dc0-448e-8732-9f87e9fbe07f"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Load"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -156,6 +204,10 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
+        // RoomManager
+        m_RoomManager = asset.FindActionMap("RoomManager", throwIfNotFound: true);
+        m_RoomManager_Save = m_RoomManager.FindAction("Save", throwIfNotFound: true);
+        m_RoomManager_Load = m_RoomManager.FindAction("Load", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -259,8 +311,67 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // RoomManager
+    private readonly InputActionMap m_RoomManager;
+    private List<IRoomManagerActions> m_RoomManagerActionsCallbackInterfaces = new List<IRoomManagerActions>();
+    private readonly InputAction m_RoomManager_Save;
+    private readonly InputAction m_RoomManager_Load;
+    public struct RoomManagerActions
+    {
+        private @Inputs m_Wrapper;
+        public RoomManagerActions(@Inputs wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Save => m_Wrapper.m_RoomManager_Save;
+        public InputAction @Load => m_Wrapper.m_RoomManager_Load;
+        public InputActionMap Get() { return m_Wrapper.m_RoomManager; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(RoomManagerActions set) { return set.Get(); }
+        public void AddCallbacks(IRoomManagerActions instance)
+        {
+            if (instance == null || m_Wrapper.m_RoomManagerActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_RoomManagerActionsCallbackInterfaces.Add(instance);
+            @Save.started += instance.OnSave;
+            @Save.performed += instance.OnSave;
+            @Save.canceled += instance.OnSave;
+            @Load.started += instance.OnLoad;
+            @Load.performed += instance.OnLoad;
+            @Load.canceled += instance.OnLoad;
+        }
+
+        private void UnregisterCallbacks(IRoomManagerActions instance)
+        {
+            @Save.started -= instance.OnSave;
+            @Save.performed -= instance.OnSave;
+            @Save.canceled -= instance.OnSave;
+            @Load.started -= instance.OnLoad;
+            @Load.performed -= instance.OnLoad;
+            @Load.canceled -= instance.OnLoad;
+        }
+
+        public void RemoveCallbacks(IRoomManagerActions instance)
+        {
+            if (m_Wrapper.m_RoomManagerActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IRoomManagerActions instance)
+        {
+            foreach (var item in m_Wrapper.m_RoomManagerActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_RoomManagerActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public RoomManagerActions @RoomManager => new RoomManagerActions(this);
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
+    }
+    public interface IRoomManagerActions
+    {
+        void OnSave(InputAction.CallbackContext context);
+        void OnLoad(InputAction.CallbackContext context);
     }
 }

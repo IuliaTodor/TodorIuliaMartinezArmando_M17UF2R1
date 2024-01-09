@@ -152,12 +152,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d437721c31efcc742a38c76502515b20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debug: 0
+  debug: 1
   bounds:
     m_Position: {x: -10, y: -9, z: 0}
     m_Size: {x: 20, y: 14, z: 0}
-  filePath: C:/Users/arman/TodorIuliaMartinezArmando_M17UF2R1/Assets/Scripts/Classes/Map/Maps/
-  filename: help.json
+  filePath: C:\Users\DamV2\Desktop\ARMANDO\TodorIuliaMartinezArmando_M17UF2R1\Assets\Scripts\Classes\Map\Maps\
+  filename: base.json
 --- !u!4 &30786753
 Transform:
   m_ObjectHideFlags: 0

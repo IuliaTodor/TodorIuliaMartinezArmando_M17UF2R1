@@ -15,7 +15,7 @@ public class MapManager : MonoBehaviour
     Dictionary<string, Tilemap> tilemaps = new Dictionary<string, Tilemap>();
     [SerializeField] BoundsInt bounds;
     // IMPORTANTE: CAMBIAR EL FILENAME Y FILEPATH PARA QUE CONCUERDE CON LA CARPETA MAPS
-    [SerializeField] string filePath = "C:_____\\TodorIuliaMartinezArmando_M17UF2R1\\Assets\\Scripts\\Classes\\Map\\Maps\\";
+    private string filePath = Application.dataPath + "\\Scripts\\Classes\\Map\\Maps\\";
     [SerializeField] string filename = "example.json";
     void Start()
     {
@@ -25,6 +25,7 @@ public class MapManager : MonoBehaviour
         initTilemaps();
         if (debug) 
         {
+            Debug.Log("huh");
             input.Enable();
             input.RoomManager.Load.performed += LoadRoom;
             input.RoomManager.Save.performed += SaveRoom;
@@ -34,6 +35,7 @@ public class MapManager : MonoBehaviour
     }
     public void LoadRoom(InputAction.CallbackContext value) 
     {
+        Debug.Log("AYUDA");
         List<TilemapData> data = FileHandler.ReadListFromJSON<TilemapData>(filePath + filename);
 
         foreach(var mapData in data) {
@@ -115,7 +117,7 @@ public class MapManager : MonoBehaviour
     {
         Room[,] floorLayout = new Room[5,5];
         
-        MapUtils.GetRoomSlots("iaosdio1001");
+        MapUtils.GetRoomSlots(filename);
         MapUtils.DebugMap();
     }
 
@@ -130,10 +132,13 @@ public class TilemapData {
 public class TileInfo {
     public TileBase tile;
     public Vector3Int position;
+    public string tilename;
 
     public TileInfo(TileBase tile, Vector3Int pos) {
+        
         this.tile = tile;
         this.position = pos;
+        
     }
 }
 

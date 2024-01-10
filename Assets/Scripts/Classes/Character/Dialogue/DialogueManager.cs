@@ -41,13 +41,14 @@ public class DialogueManager : MonoBehaviour
         {
             if (showFinalText)
             {
-                OpenCloseDialogue(false);
+                ToggleDialogue(false);
                 showFinalText = false;
                 return;
             }
 
             if (AvailableNPC.npcDialogue.hasExtraInteraction)
             {
+                UIManager.instance.OpenInteracitonPanel(AvailableNPC.npcDialogue.extraInteraction);
                 ExtraInteraction();
                 return;
             }
@@ -66,14 +67,14 @@ public class DialogueManager : MonoBehaviour
         instance = this;
     }
 
-    public void OpenCloseDialogue(bool state)
+    public void ToggleDialogue(bool state)
     {
         dialogueBox.SetActive(state);
     }
 
     private void ManageDialogueBox(NPCDialogue dialogue)
     {
-        OpenCloseDialogue(true);
+        ToggleDialogue(true);
         ShowDialogueSequence(dialogue);
 
         NPCIcon.sprite = dialogue.icon;

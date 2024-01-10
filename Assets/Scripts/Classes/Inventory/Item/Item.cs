@@ -8,7 +8,7 @@ public enum ItemTypes
     Treasures,
     CureItem
 }
-public class Item : ScriptableObject, IPickable
+public class Item : ScriptableObject
 {
     public string ID;
     public string itemName;
@@ -19,6 +19,7 @@ public class Item : ScriptableObject, IPickable
     public bool isStackable;
     public int maxAmount;
     public int amount;
+    public int cost;
 
     //Crea una nueva instancia del objeto
     public Item CopyItem()

@@ -9,12 +9,14 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
 
     [SerializeField] private GameObject inventoryPanel;
+    [SerializeField] private GameObject shopPanel;
 
     [SerializeField] private Image playerLife;
     [SerializeField] private Image playerAmmo;
 
     //[SerializeField] private TextMeshProUGUI playerLifeTMPro;
     [SerializeField] private TextMeshProUGUI playerAmmoTMPro;
+    [SerializeField] private TextMeshProUGUI coinsTMP;
 
     private float health;
     private float maxHealth;
@@ -27,13 +29,6 @@ public class UIManager : MonoBehaviour
         instance = this;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         UpdateCharacterUI();
@@ -48,7 +43,7 @@ public class UIManager : MonoBehaviour
 
         playerAmmo.fillAmount = Mathf.Lerp(playerAmmo.fillAmount, ammo/maxAmmo, 10f * Time.deltaTime);
         playerAmmoTMPro.text = $"{ammo}/{maxAmmo}";
-
+        coinsTMP.text = CoinManager.instance.totalCoins.ToString();
     }
 
     public void UpdateCharacterHealth(float playerHealth, float playerMaxHealth)
@@ -67,10 +62,25 @@ public class UIManager : MonoBehaviour
 
     #region Paneles
 
-    public void OpenCloseInventory()
+    public void ToggleInventory()
     {
         //Pone el active al contrario de cómo está actualmente
         inventoryPanel.SetActive(!inventoryPanel.activeSelf);
+    }
+
+    public void ToggleShop()
+    {
+        //Pone el active al contrario de cómo está actualmente
+        shopPanel.SetActive(!shopPanel.activeSelf);
+    }
+
+    public void OpenInteracitonPanel(extraNPCInteraction interactionType)
+    {
+        if(interactionType == extraNPCInteraction.Shop)
+        {
+            ToggleShop();
+            DialogueManager.instance.ToggleDialogue(false);
+        }
     }
 
     #endregion

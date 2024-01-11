@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 2706094792
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: dungeon_tiles
+      Dependencies: {}

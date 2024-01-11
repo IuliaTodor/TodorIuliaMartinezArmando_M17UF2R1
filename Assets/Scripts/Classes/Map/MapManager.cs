@@ -3,13 +3,17 @@ using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
+using System.IO;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 
 public class MapManager : MonoBehaviour
 {
+    public string[] tileList;
+    private AssetBundle dungeonBundle;
     [SerializeField] public bool debug = true;
     private Inputs input;
     Dictionary<string, Tilemap> tilemaps = new Dictionary<string, Tilemap>();
@@ -19,13 +23,17 @@ public class MapManager : MonoBehaviour
     [SerializeField] string filename = "example.json";
     void Start()
     {
+        dungeonBundle = AssetBundle.LoadFromFile(Application.dataPath + "\\AssetBundles\\dungeon_tiles");
+        tileList = dungeonBundle.GetAllAssetNames();
+        var prefab = dungeonBundle.LoadAsset<TileBase>("assets/tiles/dungeon_tileset_0.asset");
+        Debug.Log(prefab);
+
         MapUtils.DebugMap();
         MapUtils.getRoomPool(filePath);
         input = new Inputs();
         initTilemaps();
         if (debug) 
         {
-            Debug.Log("huh");
             input.Enable();
             input.RoomManager.Load.performed += LoadRoom;
             input.RoomManager.Save.performed += SaveRoom;
@@ -35,7 +43,6 @@ public class MapManager : MonoBehaviour
     }
     public void LoadRoom(InputAction.CallbackContext value) 
     {
-        Debug.Log("AYUDA");
         List<TilemapData> data = FileHandler.ReadListFromJSON<TilemapData>(filePath + filename);
 
         foreach(var mapData in data) {
@@ -51,7 +58,8 @@ public class MapManager : MonoBehaviour
             // Cada tilemap en el JSON, se coloca correctamente. Espero.
             if(mapData.tiles != null && mapData.tiles.Count > 0) {
                 foreach(TileInfo tile in mapData.tiles){
-                    map.SetTile(tile.position, tile.tile);
+                    Debug.Log(tile.tilename);
+                    map.SetTile(tile.position, dungeonBundle.LoadAsset<TileBase>("assets/tiles/" + tile.tilename + ".asset"));
                 }
             }
         }
@@ -72,7 +80,7 @@ public class MapManager : MonoBehaviour
             map.ClearAllTiles(); 
             if(mapData.tiles != null && mapData.tiles.Count > 0) {
                 foreach(TileInfo tile in mapData.tiles){
-                    map.SetTile(tile.position, tile.tile);
+                    map.SetTile(tile.position, dungeonBundle.LoadAsset<TileBase>("assets/tiles/" + tile.tilename + ".asset"));
                 }
             }
         }
@@ -95,7 +103,7 @@ public class MapManager : MonoBehaviour
 
                     if (tile != null)
                     {
-                        TileInfo tileInfo = new TileInfo(tile, pos);
+                        TileInfo tileInfo = new TileInfo(tile, pos, tile.name);
                         mapData.tiles.Add(tileInfo);
                     }
                 }
@@ -134,10 +142,11 @@ public class TileInfo {
     public Vector3Int position;
     public string tilename;
 
-    public TileInfo(TileBase tile, Vector3Int pos) {
+    public TileInfo(TileBase tile, Vector3Int pos, string name) {
         
         this.tile = tile;
         this.position = pos;
+        this.tilename = name.ToLower();
         
     }
 }

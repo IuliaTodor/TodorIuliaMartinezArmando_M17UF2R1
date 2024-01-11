@@ -22,3 +22,4 @@ MonoBehaviour:
   isStackable: 1
   maxAmount: 99
   amount: 0
+  cost: 101

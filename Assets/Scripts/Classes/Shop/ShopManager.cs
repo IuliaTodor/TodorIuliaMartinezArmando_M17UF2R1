@@ -48,7 +48,7 @@ public class ShopManager : MonoBehaviour
     {
         for (int i = 0; i < items.Length; i++)
         {
-                if (CoinManager.instance.totalCoins >= items[i].cost)
+            if (CoinManager.instance.totalCoins >= (items[i].cost * itemAmount[i]))
                 {
                     purchaseBtn[i].interactable = true;
                 }

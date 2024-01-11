@@ -21,4 +21,5 @@ MonoBehaviour:
   isStackable: 1
   maxAmount: 10
   amount: 0
+  cost: 6
   HPRestore: 2

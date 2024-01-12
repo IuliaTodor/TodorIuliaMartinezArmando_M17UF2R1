@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject inventoryPanel;
     [SerializeField] private GameObject shopPanel;
+    [SerializeField] private GameObject pausePanel;
 
     [SerializeField] private Image playerLife;
     [SerializeField] private Image playerAmmo;
@@ -18,6 +19,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI playerAmmoTMPro;
     [SerializeField] private TextMeshProUGUI coinsTMP;
 
+    public static bool GameIsPaused = false;
     private float health;
     private float maxHealth;
 
@@ -26,12 +28,17 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
     void Update()
     {
         UpdateCharacterUI();
+        TogglePauseMenu();
     }
 
     private void UpdateCharacterUI()
@@ -58,6 +65,40 @@ public class UIManager : MonoBehaviour
         //De esta forma los valores iniciales no son null
         ammo = playerAmmo;
         maxAmmo = playerMaxAmmo;
+    }
+
+    public void TogglePauseMenu()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (GameIsPaused)
+            {
+                Resume();
+                //FindObjectOfType<AudioManager>().Play("ClosePauseMenu");
+            }
+
+            else
+            {
+                Pause();
+
+            }
+        }
+    }
+
+    public void Resume()
+    {
+        pausePanel.SetActive(false);
+        Time.timeScale = 1f;
+        GameIsPaused = false;
+        //FindObjectOfType<AudioManager>().Play("ClosePauseMenu");
+    }
+
+    void Pause()
+    {
+        pausePanel.SetActive(true);
+        Time.timeScale = 0f;
+        GameIsPaused = true;
+        //FindObjectOfType<AudioManager>().Play("OpenPauseMenu");
     }
 
     #region Paneles

@@ -1,10 +1,7 @@
 using System;
-using System.CodeDom.Compiler;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.IO;
-using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -122,13 +119,20 @@ public class MapManager : MonoBehaviour
     void initFloor()
     {
         Room[,] floorLayout = new Room[5,5];
-        int[,] nextPosition = new int[UnityEngine.Random.Range(0, 5), UnityEngine.Random.Range(0, 5)];
+        Vector2 nextPosition = new Vector2(3, 3);
 
         for (int i = 0; i < 6; i++) MapUtils.AddRoom(ref floorLayout, nextPosition);
 
         MapUtils.GetRoomSlots(filename);
 
-        floorLayout[1, 1] = new Room("base1100.json", MapUtils.GetRoomSlots("base1100.json"));
+        Debug.Log("Añadimos una habitación en " + nextPosition.x + "," + nextPosition.y);
+        floorLayout[(int)nextPosition.x, (int)nextPosition.y] = new Room("base1110.json", MapUtils.GetRoomSlots("base1110.json"));
+        if (nextPosition.x + 1 < floorLayout.GetLength(0)) nextPosition.x++;
+        else nextPosition.x--;
+        MapUtils.DebugMap(floorLayout);
+        Debug.Log("Añadimos una habitación en " + nextPosition.x + "," + nextPosition.y);
+        floorLayout[(int)nextPosition.x, (int)nextPosition.y] = new Room("base1110.json", MapUtils.GetRoomSlots("base1110.json"));
+        
         MapUtils.DebugMap(floorLayout);
     }
 

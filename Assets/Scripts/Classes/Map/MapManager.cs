@@ -9,12 +9,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class MapManager : MonoBehaviour
 {
-    public string[] tileList;
+    private string[] tileList;
     private AssetBundle dungeonBundle;
     [SerializeField] public bool debug = true;
+    [Serialize] public bool canSave = false;
     private Inputs input;
     Dictionary<string, Tilemap> tilemaps = new Dictionary<string, Tilemap>();
     [SerializeField] BoundsInt bounds;
@@ -25,10 +27,7 @@ public class MapManager : MonoBehaviour
     {
         dungeonBundle = AssetBundle.LoadFromFile(Application.dataPath + "\\AssetBundles\\dungeon_tiles");
         tileList = dungeonBundle.GetAllAssetNames();
-        var prefab = dungeonBundle.LoadAsset<TileBase>("assets/tiles/dungeon_tileset_0.asset");
-        Debug.Log(prefab);
 
-        MapUtils.DebugMap();
         MapUtils.getRoomPool(filePath);
         input = new Inputs();
         initTilemaps();
@@ -36,7 +35,7 @@ public class MapManager : MonoBehaviour
         {
             input.Enable();
             input.RoomManager.Load.performed += LoadRoom;
-            input.RoomManager.Save.performed += SaveRoom;
+            if (canSave) input.RoomManager.Save.performed += SaveRoom;
         } else {
             initFloor();
         }
@@ -58,7 +57,6 @@ public class MapManager : MonoBehaviour
             // Cada tilemap en el JSON, se coloca correctamente. Espero.
             if(mapData.tiles != null && mapData.tiles.Count > 0) {
                 foreach(TileInfo tile in mapData.tiles){
-                    Debug.Log(tile.tilename);
                     map.SetTile(tile.position, dungeonBundle.LoadAsset<TileBase>("assets/tiles/" + tile.tilename + ".asset"));
                 }
             }
@@ -112,7 +110,7 @@ public class MapManager : MonoBehaviour
         }
         // Usando FileHandler, guardamos la información de nuestro tilemapdata en un json
         FileHandler.SaveToJSON<TilemapData>(data, filePath + filename);
-        Debug.Log("Map saved");
+        Debug.Log(filename + " Map saved");
     }
 
     void initTilemaps()
@@ -124,9 +122,14 @@ public class MapManager : MonoBehaviour
     void initFloor()
     {
         Room[,] floorLayout = new Room[5,5];
-        
+        int[,] nextPosition = new int[UnityEngine.Random.Range(0, 5), UnityEngine.Random.Range(0, 5)];
+
+        for (int i = 0; i < 6; i++) MapUtils.AddRoom(ref floorLayout, nextPosition);
+
         MapUtils.GetRoomSlots(filename);
-        MapUtils.DebugMap();
+
+        floorLayout[1, 1] = new Room("base1100.json", MapUtils.GetRoomSlots("base1100.json"));
+        MapUtils.DebugMap(floorLayout);
     }
 
 }
@@ -154,6 +157,7 @@ public class TileInfo {
 [Serializable]
 public class Room {
     public string roomName;
+    public bool isRoot = false;
     public int[,] slots = new int[2,2]; 
 
     public Room(string name, int[,] slots) {

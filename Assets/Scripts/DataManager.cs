@@ -39,7 +39,13 @@ public class DataManager : MonoBehaviour
         {
             string content = File.ReadAllText(SaveFiles);
             Debug.Log(content);
-            gameData = JsonUtility.FromJson<GameData>(content); //Convierte el Json en algo leíble
+            GameData loadedData = JsonUtility.FromJson<GameData>(content);
+
+            // Copy values from loadedData to the existing gameData
+            gameData.coins = loadedData.coins;
+            CoinManager.instance.totalCoins = gameData.coins;
+
+            Debug.Log("Game data coins: " + gameData.coins);
         }
 
         else

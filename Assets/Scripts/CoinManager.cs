@@ -6,10 +6,16 @@ public class CoinManager : MonoBehaviour
 {
     public static CoinManager instance;
     public int totalCoins;
-
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
     void Start()
     {
-        instance = this;
         totalCoins = 0;
     }
 

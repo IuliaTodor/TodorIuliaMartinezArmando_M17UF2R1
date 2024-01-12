@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject shopPanel;
     [SerializeField] private GameObject pausePanel;
 
-    [SerializeField] private Image playerLife;
+    [SerializeField] public Image playerLife;
     [SerializeField] private Image playerAmmo;
 
     //[SerializeField] private TextMeshProUGUI playerLifeTMPro;
@@ -20,8 +20,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI coinsTMP;
 
     public static bool GameIsPaused = false;
-    private float health;
-    private float maxHealth;
+    public float health;
+    public float maxHealth;
 
     private float ammo;
     private float maxAmmo;

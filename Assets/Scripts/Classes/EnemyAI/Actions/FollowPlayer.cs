@@ -23,7 +23,7 @@ public class FollowPlayer : AIAction
         float distance = directionTowardsPlayer.magnitude;
 
         //Así el enemigo no colisiona con el jugador y no lo atraviesa
-        if(distance >= 1.30)
+        if(distance >= 1.1)
         {
             manager.transform.Translate(direction * manager.speed * Time.deltaTime);
         }

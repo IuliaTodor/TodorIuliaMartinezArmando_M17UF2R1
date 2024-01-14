@@ -22,17 +22,13 @@ public class AttackPlayer : AIAction
             if(manager.attackType == AttackType.Tackle)
             {
                 manager.TackleAttack(manager.enemyDamage);
+                manager.UpdateTimeBetweenAttacks();
             }
-            else
+            else if(manager.attackType == AttackType.Bomb)
             {
                 manager.BombAttack(manager.enemyDamage);
             }
-
-            manager.BombAttack(manager.enemyDamage);
-            manager.UpdateTimeBetweenAttacks();
+            
         }
-
-
     }
-
 }

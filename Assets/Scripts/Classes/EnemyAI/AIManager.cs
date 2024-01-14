@@ -21,15 +21,17 @@ public class AIManager : CharacterMovement
     [SerializeField] public float tackleSpeed;
 
     [SerializeField] public float enemyDamage;
-    [SerializeField] public float enemyAttackCooldown; 
-    
+    [SerializeField] public float enemyAttackCooldown;
+
     [SerializeField] private float timeForNextAttack;
     private BoxCollider2D boxCollider2D;
 
-    [SerializeField] public LayerMask characterLayerMask; 
+    [SerializeField] public LayerMask characterLayerMask;
     [SerializeField] public AttackType attackType;
     [HideInInspector] public Transform reference; //La referencia al player
     public CharacterMovement characterMovement;
+    [SerializeField] AnimationClip explodeAnim;
+    private Animator anim;
 
     [SerializeField] private bool showDetection;
     [SerializeField] private bool showAttackRange;
@@ -41,9 +43,10 @@ public class AIManager : CharacterMovement
 
     private void Start()
     {
-        boxCollider2D= GetComponent<BoxCollider2D>();
+        anim = GetComponent<Animator>();
+        boxCollider2D = GetComponent<BoxCollider2D>();
         currentState = initialState;
-        characterMovement= GetComponent<CharacterMovement>();   
+        characterMovement = GetComponent<CharacterMovement>();
     }
 
     private void Update()
@@ -53,7 +56,7 @@ public class AIManager : CharacterMovement
 
     public void ChangeState(AIState newState)
     {
-        if(newState != defaultState) 
+        if (newState != defaultState)
         {
             currentState = newState;
         }
@@ -72,7 +75,7 @@ public class AIManager : CharacterMovement
 
     public bool AttackTime()
     {
-        if(Time.time > timeForNextAttack)
+        if (Time.time > timeForNextAttack)
         {
             return true;
         }
@@ -82,12 +85,17 @@ public class AIManager : CharacterMovement
 
     public void UpdateTimeBetweenAttacks()
     {
-        timeForNextAttack= Time.time + enemyAttackCooldown; 
+        timeForNextAttack = Time.time + enemyAttackCooldown;
     }
 
     public void TackleAttack(float amount)
     {
         StartCoroutine(ITackle(amount));
+    }
+
+    public void BombAttack(float amount)
+    {
+        StartCoroutine(IBomb(amount));
     }
 
     private IEnumerator ITackle(float amount)
@@ -116,22 +124,38 @@ public class AIManager : CharacterMovement
         boxCollider2D.enabled = true;
     }
 
+    private IEnumerator IBomb(float amount)
+    {
+        anim.SetBool("hasExploded", true);
+
+        // Wait for the animation to complete
+        float animationLength = explodeAnim.length;
+        Debug.Log("Animation Length: " + animationLength);
+
+        yield return new WaitForSeconds(animationLength);
+        DamagePlayer(amount);
+
+        // Optionally, you can handle other post-explosion logic here
+        Destroy(gameObject);
+
+    }
+
     public void DamagePlayer(float amount)
     {
         reference.GetComponent<Player>().HandleDamage(amount);
     }
 
-    public void BombAttack(float amount)
-    {
-        if(reference != null)
-        {
-            DamagePlayer(amount);
-        }
-    }
+    //public void BombAttack(float amount)
+    //{
+    //    if (reference != null)
+    //    {
+    //        DamagePlayer(amount);
+    //    }
+    //}
 
     private void OnDrawGizmos()
     {
-        if(showDetection)
+        if (showDetection)
         {
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(transform.position, detectionRange);

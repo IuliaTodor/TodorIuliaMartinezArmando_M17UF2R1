@@ -17,8 +17,17 @@ public class AttackPlayer : AIAction
             return;
         }
 
-        if (manager.AttackRange(manager.attackRange))
+        if (manager.AttackRange(manager.TypeOfAttackRange))
         {
+            if(manager.attackType == AttackType.Tackle)
+            {
+                manager.TackleAttack(manager.enemyDamage);
+            }
+            else
+            {
+                manager.BombAttack(manager.enemyDamage);
+            }
+
             manager.BombAttack(manager.enemyDamage);
             manager.UpdateTimeBetweenAttacks();
         }

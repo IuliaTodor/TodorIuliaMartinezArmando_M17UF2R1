@@ -19,7 +19,7 @@ public class AttackRange : AIDecision
 
         float distance = (manager.reference.position - manager.transform.position).sqrMagnitude;
 
-        if(distance < Mathf.Pow(manager.attackRange, 2))
+        if(distance < Mathf.Pow(manager.TypeOfAttackRange, 2))
         {
             return true;
         }

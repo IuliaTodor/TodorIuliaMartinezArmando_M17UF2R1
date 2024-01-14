@@ -122,6 +122,7 @@ public class Player : Character, IHealth, IDamage
 
             if (health <= 0)
             {
+                health = 0;
                 UIManager.instance.UpdateCharacterHealth(health, maxHealth);
                 HandleDeath();
             }

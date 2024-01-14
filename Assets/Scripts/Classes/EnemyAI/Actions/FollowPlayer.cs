@@ -25,7 +25,7 @@ public class FollowPlayer : AIAction
         //Así el enemigo no colisiona con el jugador y no lo atraviesa
         if(distance >= 1.30)
         {
-            manager.transform.Translate(direction * manager.movementSpeed * Time.deltaTime);
+            manager.transform.Translate(direction * manager.speed * Time.deltaTime);
         }
 
     }

@@ -10,16 +10,16 @@ public class Player : Character, IHealth, IDamage
     public Weapon activeWeapon;
 
     [SerializeField]
-    private int _health; //Esta propiedad solo es para que aparezca en el inspector, ya que el get set no lo permit�a. Lo mismo para maxHealth
-    public int health
+    private float _health; //Esta propiedad solo es para que aparezca en el inspector, ya que el get set no lo permit�a. Lo mismo para maxHealth
+    public float health
     {
         get { return _health; }
         set { _health = value; }
     }
 
     [SerializeField]
-    private int _maxHealth;
-    public int maxHealth
+    private float _maxHealth;
+    public float maxHealth
     {
         get { return _maxHealth; }
         set { _maxHealth = value; }
@@ -113,7 +113,7 @@ public class Player : Character, IHealth, IDamage
     }
 
     //When the player recieves damage
-    public void HandleDamage(int damageTaken)
+    public void HandleDamage(float damageTaken)
     {
         if (health > 0)
         {

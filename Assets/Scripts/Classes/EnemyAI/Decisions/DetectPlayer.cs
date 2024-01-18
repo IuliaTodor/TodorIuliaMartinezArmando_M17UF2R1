@@ -9,7 +9,11 @@ public class DetectPlayer : AIDecision
     {
       return DetectCharacter(manager);
     }
-
+    /// <summary>
+    /// Determina si el enemigo ve al jugador o no
+    /// </summary>
+    /// <param name="manager"></param>
+    /// <returns></returns>
     public bool DetectCharacter(AIManager manager)
     {
         Collider2D detectedPlayer = Physics2D.OverlapCircle(manager.transform.position, manager.detectionRange, manager.characterLayerMask); //Si colisiona con el jugador tendrá la referencia de su collider 

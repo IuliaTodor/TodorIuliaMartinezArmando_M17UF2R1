@@ -9,7 +9,11 @@ public class AttackRange : AIDecision
     {
        return OnAttackRange(manager);
     }
-    //Indica si podemos hacer la transición para atacar
+    /// <summary>
+    /// Indica si podemos hacer la transición para atacar
+    /// </summary>
+    /// <param name="manager"></param>
+    /// <returns></returns>
     private bool OnAttackRange(AIManager manager)
     {
         if(manager.reference == null)
@@ -19,7 +23,7 @@ public class AttackRange : AIDecision
 
         float distance = (manager.reference.position - manager.transform.position).sqrMagnitude;
 
-        if(distance < Mathf.Pow(manager.TypeOfAttackRange, 2))
+        if(distance < Mathf.Pow(manager.TypeOfAttackRange(), 2))
         {
             return true;
         }

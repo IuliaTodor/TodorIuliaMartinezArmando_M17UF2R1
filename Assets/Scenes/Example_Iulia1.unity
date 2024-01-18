@@ -481,7 +481,6 @@ GameObject:
   - component: {fileID: 597677398}
   - component: {fileID: 597677397}
   - component: {fileID: 597677396}
-  - component: {fileID: 597677395}
   - component: {fileID: 597677401}
   m_Layer: 0
   m_Name: Vaporeon
@@ -490,21 +489,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &597677395
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 597677394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 752974be22eda7d41b7b50b8e109c85b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectile: {fileID: 8228243458736470544, guid: d48d5320f5cd33d48bf6d625d75a2058, type: 3}
-  projectilePosition: {fileID: 1260257064}
-  maxTime: 2
 --- !u!50 &597677396
 Rigidbody2D:
   serializedVersion: 4
@@ -587,7 +571,7 @@ Animator:
   m_GameObject: {fileID: 597677394}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c0f74ff84774d22428d34c777e63c4ce, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -680,26 +664,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 0
   direction: 0
-  initialState: {fileID: 0}
+  initialState: {fileID: 11400000, guid: ff404851e27c3a04d8995e356f7ff0d5, type: 2}
   currentState: {fileID: 0}
-  defaultState: {fileID: 0}
-  attackRange: 0
+  defaultState: {fileID: 11400000, guid: 11d56a08c971f9b46b4d19052967833a, type: 2}
+  bombRange: 0
   tackleRange: 0
-  detectionRange: 0
+  projectileRange: 7
+  detectionRange: 7
   tackleSpeed: 0
-  enemyDamage: 0
-  enemyAttackCooldown: 0
-  timeForNextAttack: 0
-  characterLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  attackType: 0
+  enemyAttackCooldown: 1
+  timeForNextAttack: 1
+  enemyDamage: 1
+  projectile: {fileID: 8228243458736470544, guid: d48d5320f5cd33d48bf6d625d75a2058, type: 3}
+  projectilePosition: {fileID: 1260257064}
+  explodeAnim: {fileID: 0}
   reference: {fileID: 0}
   characterMovement: {fileID: 0}
-  explodeAnim: {fileID: 0}
-  showDetection: 0
+  characterLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  attackType: 1
+  showDetection: 1
   showAttackRange: 0
   showTackleRange: 0
+  showProjectileRange: 1
 --- !u!114 &894376035 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1905969906610830050, guid: 2c48693bcd266f94d8110a5f36c8cacf, type: 3}
@@ -2047,7 +2035,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1799817607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2233,7 +2221,7 @@ Transform:
   m_GameObject: {fileID: 1799817606}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.78, y: -4.94, z: 0}
+  m_LocalPosition: {x: 5.78, y: 0.34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2256,23 +2244,27 @@ MonoBehaviour:
   initialState: {fileID: 11400000, guid: aa156891ade2b6c4ba0e9a13be993d26, type: 2}
   currentState: {fileID: 0}
   defaultState: {fileID: 11400000, guid: 11d56a08c971f9b46b4d19052967833a, type: 2}
-  attackRange: 2
+  bombRange: 2
   tackleRange: 2
+  projectileRange: 0
   detectionRange: 3
   tackleSpeed: 1.5
-  enemyDamage: 1
   enemyAttackCooldown: 1
   timeForNextAttack: 1
+  enemyDamage: 1
+  projectile: {fileID: 0}
+  projectilePosition: {fileID: 0}
+  explodeAnim: {fileID: 7400000, guid: 75afeec9d3e650546a6668b03ea2f861, type: 2}
+  reference: {fileID: 0}
+  characterMovement: {fileID: 0}
   characterLayerMask:
     serializedVersion: 2
     m_Bits: 8
   attackType: 0
-  reference: {fileID: 0}
-  characterMovement: {fileID: 0}
-  explodeAnim: {fileID: 7400000, guid: 75afeec9d3e650546a6668b03ea2f861, type: 2}
   showDetection: 1
   showAttackRange: 1
   showTackleRange: 1
+  showProjectileRange: 0
 --- !u!1 &1851290602
 GameObject:
   m_ObjectHideFlags: 0

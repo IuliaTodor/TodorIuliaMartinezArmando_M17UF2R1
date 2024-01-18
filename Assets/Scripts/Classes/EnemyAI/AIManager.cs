@@ -2,45 +2,136 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Los tipos de ataques de enemigos que habrá
+/// </summary>
 public enum AttackType
 {
     Bomb,
-    Shooter,
+    Projectile,
     Tackle
 }
+/// <summary>
+/// Controla el comportamiento de los enemigos
+/// </summary>
 public class AIManager : CharacterMovement
 {
+    //---------------------Enemigo bomba------------------
+    /**
+     * El enemigo bomb debería tener: 
+     * -Initial, current y defaultState
+     * -Bomb range
+     * -Detection range
+     * -Enemy damage
+     * -Explode anim
+     * -showDetection
+     * -showBombRange
+     * */
+    //---------------------Enemigo tackle------------------
+    /**
+     * El enemigo tackle debería tener: 
+     * -Initial, current y defaultState
+     * -Tackle range
+     * -Detection range
+     * -Tackle speed
+     * -Enemyattackcooldown
+     * -Timefornextattack
+     * -Enemy damage
+     * -showDetection
+     * -showBombRange
+     * */
+    //---------------------Enemigo projectile------------------
+    /**
+   * El enemigo projectile debería tener: 
+   * -Initial, current y defaultState
+   * -Projectile range
+   * -Detection range
+   * -Enemyattackcooldown
+   * -Timefornextattack
+   * -Enemy damage
+   * -Projectile
+   * -Projectileposition
+   * -showDetection
+   * -showProjectileRange
+   * */
+    public static AIManager instance;
+    //----------------------------------------------Estados------------------------------------------------------
     [SerializeField] private AIState initialState;
     [SerializeField] private AIState currentState;
     [SerializeField] private AIState defaultState;
 
-    [SerializeField] public float attackRange;
+    //----------------------------------------------Rango del enemigos--------------------------------------------
+    //Estos tres son rangos en los cuales el enemigo va a atacar dependiendo de su tipo de ataque
+    [SerializeField] public float bombRange;
     [SerializeField] public float tackleRange;
+    [SerializeField] public float projectileRange;
+    /// <summary>
+    /// El rango en el cual el enemigo ve al jugador
+    /// </summary>
     [SerializeField] public float detectionRange;
-
+    //----------------------------------------------Caracteristicas específicas de enemigos------------------------
+    /// <summary>
+    /// Velocidad de ataque el enemigo tackle
+    /// </summary>
     [SerializeField] public float tackleSpeed;
-
-    [SerializeField] public float enemyDamage;
     [SerializeField] public float enemyAttackCooldown;
-
+    /// <summary>
+    /// Comprueba si puede atacar basado en el cooldown
+    /// </summary>
     [SerializeField] private float timeForNextAttack;
-    private BoxCollider2D boxCollider2D;
+    /// <summary>
+    /// Daño que hace el enemigo
+    /// </summary>
+    [SerializeField] public float enemyDamage;
+    [SerializeField] GameObject projectile;
+    [SerializeField] Transform projectilePosition;
 
+    //----------------------------------------------Componentes------------------------
+    private BoxCollider2D boxCollider2D;
+    private Animator anim;
+    [SerializeField] AnimationClip explodeAnim;  
+    /// <summary>
+    /// La referencia al player
+    /// </summary>
+    [HideInInspector] public Transform reference;   
+    [HideInInspector] public CharacterMovement characterMovement;
+
+    //----------------------------------------------Cosas color lima------------------------
+    /// <summary>
+    /// Layer mask del player
+    /// </summary>
     [SerializeField] public LayerMask characterLayerMask;
     [SerializeField] public AttackType attackType;
-    [HideInInspector] public Transform reference; //La referencia al player
-    public CharacterMovement characterMovement;
-    [SerializeField] AnimationClip explodeAnim;
-    private Animator anim;
 
+    //----------------------------------------------Gizmos bool------------------------
     [SerializeField] private bool showDetection;
     [SerializeField] private bool showAttackRange;
     [SerializeField] private bool showTackleRange;
+    [SerializeField] private bool showProjectileRange;
 
-    //Si el tipo de ataque es tackle, el tipo de rango de ataque es tackleRange. Si no es AttackRange
-    public float TypeOfAttackRange => attackType == AttackType.Tackle ? tackleRange : attackRange;
+    /// <summary>
+    /// Define el rango de ataque usado según el tipo de este
+    /// </summary>
+    /// <returns></returns>
+    public float TypeOfAttackRange()
+    {
+        switch (attackType)
+        {
+            case (AttackType.Tackle):
+                return tackleRange;
+            case (AttackType.Bomb):
+                return bombRange;
+            case (AttackType.Projectile):
+                return projectileRange;
+            default:
+                return tackleRange;
+        }
+    }
 
-
+    private void Awake()
+    {
+        instance = this;
+    }
     private void Start()
     {
         anim = GetComponent<Animator>();
@@ -54,6 +145,10 @@ public class AIManager : CharacterMovement
         currentState.ExecuteState(this);
     }
 
+    /// <summary>
+    /// Cambia el estado si el nuevo es diferente al actual
+    /// </summary>
+    /// <param name="newState"></param>
     public void ChangeState(AIState newState)
     {
         if (newState != defaultState)
@@ -61,11 +156,15 @@ public class AIManager : CharacterMovement
             currentState = newState;
         }
     }
-    //Indica si el jugador está en rango de ataque del enemigo
+    /// <summary>
+    /// Indica si el jugador está en rango de ataque del enemigo
+    /// </summary>
+    /// <param name="range"></param>
+    /// <returns></returns>
     public bool AttackRange(float range)
     {
         float distanceTowardsPlayer = (reference.position - transform.position).sqrMagnitude; //La magnitud al cuadrado para comparar dos posiciones
-        //Si está en el rango de ataque
+        //Determina si el jugador está en el rango de ataque
         if (distanceTowardsPlayer < Mathf.Pow(range, 2))
         {
             return true;
@@ -73,7 +172,11 @@ public class AIManager : CharacterMovement
         return false;
     }
 
-    public bool AttackTime()
+    /// <summary>
+    /// Determina si el enemigo puede atacar tras acabar su cooldown
+    /// </summary>
+    /// <returns></returns>
+    public bool IsAttackTime()
     {
         if (Time.time > timeForNextAttack)
         {
@@ -83,6 +186,9 @@ public class AIManager : CharacterMovement
         return false;
     }
 
+    /// <summary>
+    /// Actualiza el tiempo de ataque basado en el cooldown
+    /// </summary>
     public void UpdateTimeBetweenAttacks()
     {
         timeForNextAttack = Time.time + enemyAttackCooldown;
@@ -97,14 +203,25 @@ public class AIManager : CharacterMovement
     {
         StartCoroutine(IBomb(amount));
     }
+    public void ProjectileAttack()
+    {
+        StartCoroutine(IProjectile());
+    }
 
+    /// <summary>
+    /// El enemigo tackle va de delante hacia atrás para atacar al jugador
+    /// </summary>
+    /// <param name="amount"></param>
+    /// <returns></returns>
     private IEnumerator ITackle(float amount)
     {
         Vector3 playerPosition = reference.position;
         Vector3 enemyInitialPosition = transform.position;
         Vector3 directionTowardsPlayer = (playerPosition - enemyInitialPosition).normalized;
-        Vector3 attackPosition = playerPosition - directionTowardsPlayer * 0.5f; //Para que el enemigo no entre del todo en contacto con el personaje
-        boxCollider2D.enabled = false; //Desactivamos el BoxCollider del enemigo antes de que este ataque para evitar problemas
+        //Para que el enemigo no entre del todo en contacto con el personaje
+        Vector3 attackPosition = playerPosition - directionTowardsPlayer * 0.5f;
+        //Desactivamos el BoxCollider del enemigo antes de que este ataque para evitar problemas
+        boxCollider2D.enabled = false; 
 
         float attackTransition = 0f;
         //Va de su posición inicial a la del jugador y luego de vuelta a la inicial
@@ -124,6 +241,11 @@ public class AIManager : CharacterMovement
         boxCollider2D.enabled = true;
     }
 
+    /// <summary>
+    /// El enemigo bomba explota y hace daño al jugador
+    /// </summary>
+    /// <param name="amount"></param>
+    /// <returns></returns>
     private IEnumerator IBomb(float amount)
     {
         anim.SetBool("hasExploded", true);
@@ -137,21 +259,31 @@ public class AIManager : CharacterMovement
 
         // Optionally, you can handle other post-explosion logic here
         Destroy(gameObject);
-
     }
 
+    /// <summary>
+    /// El enemigo proyectil dispara
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator IProjectile()
+    {
+        Instantiate(projectile, projectilePosition.position, Quaternion.identity);
+        yield return true;
+    }
+
+    /// <summary>
+    /// Hace daño al jugador
+    /// </summary>
+    /// <param name="amount"></param>
     public void DamagePlayer(float amount)
     {
+        if(Player.instance == null)
+        {
+            return;
+        }
+
         reference.GetComponent<Player>().HandleDamage(amount);
     }
-
-    //public void BombAttack(float amount)
-    //{
-    //    if (reference != null)
-    //    {
-    //        DamagePlayer(amount);
-    //    }
-    //}
 
     private void OnDrawGizmos()
     {
@@ -164,13 +296,19 @@ public class AIManager : CharacterMovement
         if (showAttackRange)
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, attackRange);
+            Gizmos.DrawWireSphere(transform.position, bombRange);
         }
 
         if (showTackleRange)
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, tackleRange);
+        }
+
+        if (showProjectileRange)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, projectileRange);
         }
     }
 

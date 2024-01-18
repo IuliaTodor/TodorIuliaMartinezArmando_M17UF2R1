@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// El enemigo sigue al jugador dentro de su rango de detección
+/// </summary>
 [CreateAssetMenu (menuName = "AI/Actions/FollowPlayers")]
 public class FollowPlayer : AIAction
 {
@@ -10,6 +13,10 @@ public class FollowPlayer : AIAction
         FollowsPlayer(manager);   
     }
 
+    /// <summary>
+    /// Determina cuando el enemigo debe seguir al jugador
+    /// </summary>
+    /// <param name="manager"></param>
     private void FollowsPlayer(AIManager manager)
     {
         if (manager.reference == null)

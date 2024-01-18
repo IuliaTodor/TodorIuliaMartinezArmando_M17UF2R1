@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Activa el path del enemigo para que lo siga si este entra en su rango
+/// </summary>
 [CreateAssetMenu(menuName = "AI/Actions/ActivateCharacterMovement")]
-//Activa el path del enemigo para que lo siga si ya no sigue al player
 public class ActivateCharacterMovement : AIAction
 {
+
     public override void Execute(AIManager manager)
     {
         if(manager.characterMovement == null)

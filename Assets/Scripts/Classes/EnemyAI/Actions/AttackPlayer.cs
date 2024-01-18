@@ -10,23 +10,32 @@ public class AttackPlayer : AIAction
         Attack(manager);
     }
 
+    /// <summary>
+    /// Ejecuta una acción o otra dependiendo del rango de ataque del enemigo
+    /// </summary>
+    /// <param name="manager"></param>
     private void Attack(AIManager manager)
     {
-        if (manager.reference == null || manager.AttackTime() == false)
+        if (manager.reference == null || manager.IsAttackTime() == false)
         {
             return;
         }
 
-        if (manager.AttackRange(manager.TypeOfAttackRange))
+        if (manager.AttackRange(manager.TypeOfAttackRange()))
         {
-            if(manager.attackType == AttackType.Tackle)
+            switch (manager.attackType)
             {
-                manager.TackleAttack(manager.enemyDamage);
-                manager.UpdateTimeBetweenAttacks();
-            }
-            else if(manager.attackType == AttackType.Bomb)
-            {
-                manager.BombAttack(manager.enemyDamage);
+                case AttackType.Bomb:
+                    manager.BombAttack(manager.enemyDamage);
+                    break;
+                case AttackType.Tackle:
+                    manager.TackleAttack(manager.enemyDamage);
+                    manager.UpdateTimeBetweenAttacks();
+                    break;
+                case AttackType.Projectile:
+                    manager.ProjectileAttack();
+                    manager.UpdateTimeBetweenAttacks();
+                    break;
             }
             
         }

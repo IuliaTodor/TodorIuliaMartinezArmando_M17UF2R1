@@ -105,7 +105,7 @@ public class AIManager : CharacterMovement
 
     //----------------------------------------------Gizmos bool------------------------
     [SerializeField] private bool showDetection;
-    [SerializeField] private bool showAttackRange;
+    [SerializeField] private bool showBombRange;
     [SerializeField] private bool showTackleRange;
     [SerializeField] private bool showProjectileRange;
 
@@ -288,7 +288,7 @@ public class AIManager : CharacterMovement
             Gizmos.DrawWireSphere(transform.position, detectionRange);
         }
 
-        if (showAttackRange)
+        if (showBombRange)
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, bombRange);

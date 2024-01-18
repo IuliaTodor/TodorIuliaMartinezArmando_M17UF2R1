@@ -250,14 +250,9 @@ public class AIManager : CharacterMovement
     {
         anim.SetBool("hasExploded", true);
 
-        // Wait for the animation to complete
-        float animationLength = explodeAnim.length;
-        Debug.Log("Animation Length: " + animationLength);
-
-        yield return new WaitForSeconds(animationLength);
+        yield return new WaitForSeconds(explodeAnim.length);
         DamagePlayer(amount);
 
-        // Optionally, you can handle other post-explosion logic here
         Destroy(gameObject);
     }
 
@@ -277,7 +272,7 @@ public class AIManager : CharacterMovement
     /// <param name="amount"></param>
     public void DamagePlayer(float amount)
     {
-        if(Player.instance == null)
+        if(reference == null)
         {
             return;
         }

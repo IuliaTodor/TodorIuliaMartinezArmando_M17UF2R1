@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject inventoryPanel;
     [SerializeField] private GameObject shopPanel;
     [SerializeField] private GameObject pausePanel;
+    [SerializeField] private GameObject gameOverPanel;
 
     [SerializeField] public Image playerLife;
     [SerializeField] private Image playerAmmo;
@@ -85,6 +86,22 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public IEnumerator GameOverMenu()
+    {
+        if (Player.instance.isDead)
+        {
+            yield return new WaitForSeconds(1);
+            Time.timeScale = 0f;
+            gameOverPanel.SetActive(true);
+        }
+
+        else
+        {
+            Time.timeScale = 1.0f;
+            gameOverPanel.SetActive(false);
+        }
+    }
+
     public void Resume()
     {
         pausePanel.SetActive(false);
@@ -103,12 +120,17 @@ public class UIManager : MonoBehaviour
 
     #region Paneles
 
-    public void ToggleInventory()
+    public void OpenInventory()
     {
-        //Pone el active al contrario de cómo está actualmente
+        Time.timeScale = 0f;
         inventoryPanel.SetActive(!inventoryPanel.activeSelf);
     }
 
+    public void CloseInventory()
+    {
+        Time.timeScale = 1f;
+        inventoryPanel.SetActive(!inventoryPanel.activeSelf);
+    }
     public void ToggleShop()
     {
         //Pone el active al contrario de cómo está actualmente

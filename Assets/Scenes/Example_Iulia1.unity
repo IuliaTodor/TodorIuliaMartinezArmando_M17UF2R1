@@ -4374,13 +4374,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Furry
       objectReference: {fileID: 0}
-    - target: {fileID: 3496977898929675250, guid: b94411cc066b1c84b9ffcc430399c0f9, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6511169668383973421, guid: b94411cc066b1c84b9ffcc430399c0f9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.53
+      value: -2.1
       objectReference: {fileID: 0}
     - target: {fileID: 6511169668383973421, guid: b94411cc066b1c84b9ffcc430399c0f9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4474,10 +4470,6 @@ PrefabInstance:
     - target: {fileID: 2977895668489496480, guid: b3b6c6317ddb89547bb4e0089851a22d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5216832782625259217, guid: b3b6c6317ddb89547bb4e0089851a22d, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

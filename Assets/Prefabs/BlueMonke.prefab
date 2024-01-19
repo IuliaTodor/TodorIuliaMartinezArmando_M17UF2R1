@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 7465109969292824577}
   - component: {fileID: 4044255616142305339}
   m_Layer: 0
-  m_Name: Vaporeon
+  m_Name: BlueMonke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,7 +109,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 1193232427, guid: 4200e889e4c880940a7f6be1cb431569, type: 3}
+  m_Sprite: {fileID: -238598067, guid: 67dcccc63a15039408b7fbc112e1810c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -130,7 +130,7 @@ Animator:
   m_GameObject: {fileID: 9157766655089075409}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bd94e0b85f2b2314aa0d68fe634d3acc, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -177,7 +177,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.4375, y: 1.75}
+    oldSize: {x: 1.1666666, y: 1.25}
     newSize: {x: 1.1875, y: 1.5625}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

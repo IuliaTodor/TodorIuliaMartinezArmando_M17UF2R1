@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6424136014283677164}
   - component: {fileID: 6001027970407122883}
   m_Layer: 0
-  m_Name: Furry
+  m_Name: GreenMonke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: -252736151
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1299745610, guid: 4ed4ac929d4a7454aa89607bcd7f5a10, type: 3}
+  m_Sprite: {fileID: -658551644, guid: 5a455962c3c793047976ee1da7532498, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -100,7 +100,7 @@ Animator:
   m_GameObject: {fileID: 3496977898929675250}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4fa17e685702aa24e86c0c4515b3df94, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0ac71c90737a83f45a3ec9075dbf7e24, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -159,22 +159,27 @@ MonoBehaviour:
   initialState: {fileID: 11400000, guid: aa156891ade2b6c4ba0e9a13be993d26, type: 2}
   currentState: {fileID: 0}
   defaultState: {fileID: 11400000, guid: 11d56a08c971f9b46b4d19052967833a, type: 2}
-  attackRange: 2
+  bombRange: 0
   tackleRange: 2
+  projectileRange: 0
   detectionRange: 3
   tackleSpeed: 1
-  enemyDamage: 1
   enemyAttackCooldown: 1
   timeForNextAttack: 1
+  enemyDamage: 1
+  projectile: {fileID: 0}
+  projectilePosition: {fileID: 0}
+  explodeAnim: {fileID: 0}
+  reference: {fileID: 0}
+  characterMovement: {fileID: 0}
   characterLayerMask:
     serializedVersion: 2
     m_Bits: 8
   attackType: 2
-  reference: {fileID: 0}
-  characterMovement: {fileID: 0}
   showDetection: 1
-  showAttackRange: 1
+  showBombRange: 0
   showTackleRange: 1
+  showProjectileRange: 0
 --- !u!61 &6424136014283677164
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -211,7 +216,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.1875, y: 1.8125}
+    oldSize: {x: 1.1666666, y: 1.25}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

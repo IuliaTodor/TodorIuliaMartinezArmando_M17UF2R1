@@ -18,14 +18,12 @@ public class CharacterMovement : Character
     private Animator anim;
     public Vector3 pointToMove => waypoint.GetMovementPosition(currentPointIndex);
     private Vector3 lastPosition;
-    private SpriteRenderer sr;
 
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
         waypoint = GetComponent<Waypoint>();
-        sr = GetComponent<SpriteRenderer>();
         currentPointIndex = 0;
     }
 

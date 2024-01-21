@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    public CameraManager instance;
+    public static CameraManager instance;
     private GameObject target;
     [SerializeField] private float speed;
     [SerializeField] private Vector2 maxPosition;

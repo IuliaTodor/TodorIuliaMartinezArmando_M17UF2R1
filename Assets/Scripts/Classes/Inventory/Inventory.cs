@@ -195,7 +195,13 @@ public class Inventory : MonoBehaviour
 
     private void DiscardItem(int index)
     {
+        if (items[index] == null)
+        {
+            return;
+        }
 
+        items[index] = null;
+        InventoryUI.instance.DrawItemOnInventory(null, 0, index);
     }
 
     #region EventManager
@@ -209,6 +215,7 @@ public class Inventory : MonoBehaviour
             case interactionType.Equip:
                 break;
             case interactionType.Discard:
+                DiscardItem(index);
                 break;
         }
     }

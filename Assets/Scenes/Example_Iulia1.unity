@@ -6112,7 +6112,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8f695b611cd0a946986ca1566292e70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  droppedItemPrefab: {fileID: 3805094473039394612, guid: 34c4bf576da2e97409f26e074c5cfef9, type: 3}
+  droppedItemPrefab:
+  - {fileID: 3805094473039394612, guid: 34c4bf576da2e97409f26e074c5cfef9, type: 3}
+  - {fileID: 926547255674561116, guid: 16fbe1650fe36e04fb0d609099c135be, type: 3}
+  - {fileID: 2139251969461884293, guid: fa4d5fdcbd87e204e80668cb811682b4, type: 3}
   lootList:
   - {fileID: 11400000, guid: 4c90c22483e3a944cbd6697d59fc3bf4, type: 2}
   - {fileID: 11400000, guid: 24cddc07a7d62d443b22a80b0e4500b9, type: 2}

@@ -193,6 +193,11 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    private void DiscardItem(int index)
+    {
+
+    }
+
     #region EventManager
     private void SlotInteractionResponse(interactionType type, int index)
     {

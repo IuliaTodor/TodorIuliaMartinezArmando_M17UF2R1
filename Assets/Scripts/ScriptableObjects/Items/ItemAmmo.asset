@@ -21,6 +21,6 @@ MonoBehaviour:
   isStackable: 1
   maxAmount: 30
   amount: 0
-  cost: 3
+  cost: 2
   dropChance: 50
   ammoRestore: 2

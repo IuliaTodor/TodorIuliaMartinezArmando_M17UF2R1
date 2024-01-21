@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// El proyectil que dispara el enemigo projectile
+/// </summary>
 public class Projectile : MonoBehaviour
 {
     private GameObject player;

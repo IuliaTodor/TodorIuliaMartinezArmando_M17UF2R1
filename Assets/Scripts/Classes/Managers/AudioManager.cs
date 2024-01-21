@@ -9,19 +9,14 @@ public class AudioManager : MonoBehaviour
     public Sound[] sounds;
     public static AudioManager instance;
 
+
     void Awake()
     {
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
-        DontDestroyOnLoad(gameObject);
 
         foreach (Sound sound in sounds)
         {
@@ -63,11 +58,5 @@ public class AudioManager : MonoBehaviour
         }
 
         s.source.Stop();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

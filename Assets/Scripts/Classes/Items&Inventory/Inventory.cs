@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-
     [SerializeField] public int slotsNumber;
     public Item[] items;
 
@@ -48,11 +47,13 @@ public class Inventory : MonoBehaviour
                 for (int i = 0; i < indexCount.Count; i++)
                 {
                     //Cogemos el primer item que está en un slot.
-                    if (items[indexCount[i]].amount < itemToAdd.maxAmount) //Si el item a añadir no ha superado su cantidad máxima lo añadimos
+                    //Si el item a añadir no ha superado su cantidad máxima lo añadimos
+                    if (items[indexCount[i]].amount < itemToAdd.maxAmount) 
                     {
                         items[indexCount[i]].amount += quantity; //Añadimos la cantidad a ese item
 
-                        //Si ha superado la cantidad máxima cogemos la cantidad por la cual la supera y añadimos el item, su cantidad será la diferencia
+                        //Si ha superado la cantidad máxima cogemos la cantidad por la cual la supera y añadimos el item.
+                        //Su cantidad será la diferencia
                         if (items[indexCount[i]].amount > itemToAdd.maxAmount)
                         {
                             int difference = items[indexCount[i]].amount - itemToAdd.maxAmount;
@@ -66,22 +67,19 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
-        //Para explicar la siguiente parte digamos que conseguimos 20 de un objeto de curación (con un maxAmmount de 10)
-
-        //Si el item no está en el item
+        //Verificación en caso de estar cogiendo un item con una cantidad mayor a su máxima
         if (quantity > itemToAdd.maxAmount)
         {
             //Añadimos 50 en un nuevo slot
             AddItemOnNewSlot(itemToAdd, itemToAdd.maxAmount);
-            //Actualizamos su cantidad (50-60)
             quantity -= itemToAdd.maxAmount;
-            //Volvemos a llamar a la función para que maneje los 10 restantes
+            //Volvemos a llamar a la función para que maneje la cantidad del objeto restante
             AddItem(itemToAdd, quantity);
         }
 
         else
         {
-            //Añadiría los 10 restantes en un nuevo slot
+            //Añadiría la cantidad restante en un nuevo slot
             AddItemOnNewSlot(itemToAdd, quantity);
         }
 
@@ -148,7 +146,8 @@ public class Inventory : MonoBehaviour
 
         else
         {
-            InventoryUI.instance.DrawItemOnInventory(items[index], items[index].amount, index); //Actualizamos la cantidad del item
+            //Actualizamos la cantidad del item
+            InventoryUI.instance.DrawItemOnInventory(items[index], items[index].amount, index);
         }
     }
 

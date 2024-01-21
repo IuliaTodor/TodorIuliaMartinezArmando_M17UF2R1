@@ -5,7 +5,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-//Los tipos de interacción con el slot
+/// <summary>
+/// Los tipos de interacción con el slot
+/// </summary>
 public enum interactionType
 {
     Click,
@@ -30,26 +32,38 @@ public class InventorySlot : MonoBehaviour
         button = GetComponent<Button>();
     }
 
+    /// <summary>
+    /// Actualiza el Slot en función con su imagen en función del objeto
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="quantity"></param>
     public void UpdateSlot(Item item, int quantity)
     {
         itemIcon.sprite = item.image;
         amountTMP.text = quantity.ToString();
     }
 
-    //Para activar y desactivar los slots
+    /// <summary>
+    /// Activa y desactiva los slots
+    /// </summary>
+    /// <param name="state"></param>
     public void ActivateSlotUI(bool state)
     {
         itemIcon.gameObject.SetActive(state);
         amountBackground.SetActive(state);
     }
 
-    //Así el slot queda seleccionado cuando has usado un objeto
+    /// <summary>
+    /// Así el slot queda seleccionado cuando has usado un objeto
+    /// </summary>
     public void SelectSlot()
     {
         button.Select();
     }
 
-    //Lanzamos el evento de hacer click en el slot
+    /// <summary>
+    /// Lanzamos el evento de hacer click en el slot
+    /// </summary>
     public void ClickSlot()
     {
         eventSlotInteraction?.Invoke(interactionType.Click, index);

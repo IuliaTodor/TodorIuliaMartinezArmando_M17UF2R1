@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Controla en qué dirección se está moviendo para definir su sprite
+/// </summary>
 public enum movementDirection
 {
     Horizontal,
@@ -13,13 +16,19 @@ public enum movementDirection
 public class CharacterMovement : Character
 {
     [SerializeField] private movementDirection direction;
-    private Waypoint waypoint;
-    private int currentPointIndex; //Para controlar el índice del punto al que nos queremos mover
-    private Animator anim;
+    /// <summary>
+    /// La posición de movimiento dependiendo del índice del waypoint
+    /// </summary>
     public Vector3 pointToMove => waypoint.GetMovementPosition(currentPointIndex);
     private Vector3 lastPosition;
 
-    // Start is called before the first frame update
+    private Waypoint waypoint;
+    private Animator anim;
+    /// <summary>
+    /// Controla el índice del punto al que nos queremos mover
+    /// </summary>
+    private int currentPointIndex;
+
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -27,22 +36,29 @@ public class CharacterMovement : Character
         currentPointIndex = 0;
     }
 
-    // Update is called once per frame
     void Update()
     {
         MoveCharacter();
         ChangeCharacterAnimation();
+
         if (CheckCurrentPointReached())
         {
             UpdateIndexMovement();
         }
     }
 
+    /// <summary>
+    /// Mueve al personaje hacia el siguiente waypoint
+    /// </summary>
     private void MoveCharacter()
     {
         transform.position = Vector3.MoveTowards(transform.position, pointToMove, speed * Time.deltaTime);
     }
 
+    /// <summary>
+    /// Comprueba si ha llegado al siguiente waypoint
+    /// </summary>
+    /// <returns></returns>
     private bool CheckCurrentPointReached()
     {
         float distanceTowardsCurrentPoint = (transform.position - pointToMove).magnitude; //La magnitud es la longitud del vector
@@ -55,9 +71,11 @@ public class CharacterMovement : Character
         return false;
     }
 
+    /// <summary>
+    /// Actualiza el índice del waypoint para que el personaje se mueva en bucle
+    /// </summary>
     private void UpdateIndexMovement()
     {
-        //Para que el personaje se mueva en bucle
         if (currentPointIndex == waypoint.points.Length - 1)
         {
             currentPointIndex = 0;
@@ -69,6 +87,9 @@ public class CharacterMovement : Character
         }
     }
 
+    /// <summary>
+    /// Cambia la animación según el tipo de dirección
+    /// </summary>
     private void ChangeCharacterAnimation()
     {
         switch (direction)

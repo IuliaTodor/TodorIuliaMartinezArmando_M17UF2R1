@@ -44,10 +44,15 @@ public class InventoryUI : MonoBehaviour
         {
             if(selectedSlot != null)
             {
-                initalSlotIndexToMove = selectedSlot.index; //Asignamos el índice del slot que estamos seleccionando
+                //Asignamos el índice del slot que estamos seleccionando
+                initalSlotIndexToMove = selectedSlot.index;
             }
         }
     }
+
+    /// <summary>
+    /// Añadimos los slots al inventario
+    /// </summary>
     private void InitializeInventory()
     {
         for (int i = 0; i < Inventory.instance.slotsNumber; i++)
@@ -59,7 +64,9 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    //Actualizamos el slot seleccionado
+    /// <summary>
+    /// Actualizamos el slot seleccionado
+    /// </summary>
     private void UpdateSelectedSlot()
     {
         GameObject GOSelected = EventSystem.current.currentSelectedGameObject; //El game object seleccionado
@@ -80,6 +87,12 @@ public class InventoryUI : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// El item aparece en el inventario
+    /// </summary>
+    /// <param name="itemToAdd"></param>
+    /// <param name="quantity"></param>
+    /// <param name="itemIndex"></param>
     public void DrawItemOnInventory(Item itemToAdd, int quantity, int itemIndex)
     {
         InventorySlot slot = slots[itemIndex];
@@ -113,7 +126,9 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    //Método que llamamos al usar el botón de Usar en el inventario
+    /// <summary>
+    /// Método que llamamos al usar el botón de Usar en el inventario
+    /// </summary>
     public void UseItem()
     {
         //Si hay un objeto en ese slot, usamos su item

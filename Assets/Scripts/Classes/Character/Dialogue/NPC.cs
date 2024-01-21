@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class NPC : Character
 {
     [SerializeField] private GameObject npcButtonInteraction;
@@ -24,11 +23,5 @@ public class NPC : Character
             DialogueManager.instance.AvailableNPC = null;
             npcButtonInteraction.SetActive(false);
         }
-    }
-
-
-    public void Interact()
-    {
-
     }
 }

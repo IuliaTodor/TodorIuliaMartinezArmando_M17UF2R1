@@ -22,3 +22,4 @@ MonoBehaviour:
   maxAmount: 1
   amount: 0
   cost: 5
+  dropChance: 5

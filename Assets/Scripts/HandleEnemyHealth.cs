@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HandleEnemyHealth : MonoBehaviour, IHealth, IDamage
 {
     public static HandleEnemyHealth instance;
-    [SerializeField]
-    private float _health;
+
+    [SerializeField] private Image enemyLife;
+
+    [SerializeField] private float _health;
     public float health
     {
         get { return _health; }
@@ -36,22 +39,32 @@ public class HandleEnemyHealth : MonoBehaviour, IHealth, IDamage
         boxCollider2D = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         health = maxHealth;
-        UIManager.instance.UpdateCharacterHealth(health, maxHealth);
+        UIManager.instance.UpdateEnemyHealth(health, maxHealth);
         rb.bodyType = RigidbodyType2D.Dynamic;
     }
-
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
             HandleDamage(1);
         }
+
+        if (!isDead)
+        {
+            UpdateEnemyUI();
+        }
+    }
+
+    public void UpdateEnemyUI()
+    {
+        //Mueve el fill amount entre 0 y 3
+        enemyLife.fillAmount = Mathf.Lerp(enemyLife.fillAmount, health / maxHealth, 10f * Time.deltaTime);
     }
 
     public void HandleDeath()
     {
         isDead = true;
+        GetComponent<EnemyLoot>().InstantiateLoot(transform.position);
         boxCollider2D.enabled = false;
         rb.bodyType = RigidbodyType2D.Static;
         Destroy(gameObject);
@@ -62,12 +75,12 @@ public class HandleEnemyHealth : MonoBehaviour, IHealth, IDamage
         if (health > 0)
         {
             health -= damageTaken;
-            UIManager.instance.UpdateCharacterHealth(health, maxHealth);
+            UIManager.instance.UpdateEnemyHealth(health, maxHealth);
 
             if (health <= 0)
             {
                 health = 0;
-                UIManager.instance.UpdateCharacterHealth(health, maxHealth);
+                UIManager.instance.UpdateEnemyHealth(health, maxHealth);
                 HandleDeath();
             }
         }

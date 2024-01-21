@@ -74,7 +74,7 @@ public class Player : Character, IHealth, IDamage
     {
         health = maxHealth;
         isDead = false;
-        UIManager.instance.UpdateCharacterHealth(health, maxHealth);
+        UIManager.instance.UpdatePlayerHealth(health, maxHealth);
         rb.bodyType = RigidbodyType2D.Dynamic;
     }
 
@@ -104,15 +104,14 @@ public class Player : Character, IHealth, IDamage
         characterDeathEvent?.Invoke(); //El ? significa "si no es null". Es decir, si no es null que haga Invoke.
         StartCoroutine(UIManager.instance.GameOverMenu());
         FindObjectOfType<AudioManager>().Play("PlayerDeath");
-
     }
 
     public void HandleRespawn()
     {
         boxCollider2D.enabled = true;
-        isDead = true;
+        isDead = false;
         health = maxHealth;
-        UIManager.instance.UpdateCharacterHealth(health, maxHealth);
+        UIManager.instance.UpdatePlayerHealth(health, maxHealth);
         animator.SetBool(GameManager.instance.characterDeath, false);
     }
 
@@ -122,12 +121,12 @@ public class Player : Character, IHealth, IDamage
         if (health > 0)
         {
             health -= damageTaken;
-            UIManager.instance.UpdateCharacterHealth(health, maxHealth);
+            UIManager.instance.UpdatePlayerHealth(health, maxHealth);
 
             if (health <= 0)
             {
                 health = 0;
-                UIManager.instance.UpdateCharacterHealth(health, maxHealth);
+                UIManager.instance.UpdatePlayerHealth(health, maxHealth);
                 HandleDeath();
             }
         }
@@ -144,7 +143,7 @@ public class Player : Character, IHealth, IDamage
             {
                 health = maxHealth;
             }
-            UIManager.instance.UpdateCharacterHealth(health, maxHealth);
+            UIManager.instance.UpdatePlayerHealth(health, maxHealth);
         }
     }
 }

@@ -20,6 +20,7 @@ public class Item : ScriptableObject
     public int maxAmount;
     public int amount;
     public int cost;
+    public int dropChance;
 
     //Crea una nueva instancia del objeto
     public Item CopyItem()

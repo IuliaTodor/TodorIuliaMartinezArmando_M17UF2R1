@@ -15,15 +15,17 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] public Image playerLife;
     [SerializeField] private Image playerAmmo;
-    [SerializeField] private Image enemyLife;
 
     //[SerializeField] private TextMeshProUGUI playerLifeTMPro;
     [SerializeField] private TextMeshProUGUI playerAmmoTMPro;
     [SerializeField] private TextMeshProUGUI coinsTMP;
 
     public bool GameIsPaused = false;
-    public float health;
-    public float maxHealth;
+    public float playerHealth;
+    public float playerMaxHealth;
+
+    public float enemyHealth;
+    public float enemyMaxHealth;
 
     private float ammo;
     private float maxAmmo;
@@ -40,37 +42,33 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         UpdateCharacterUI();
-
-        if(!HandleEnemyHealth.instance.isDead)
-        {
-            UpdateEnemyUI();
-        }
         TogglePauseMenu();
     }
 
     private void UpdateCharacterUI()
     {
         //Mueve el fill amount entre 0 y 3
-        playerLife.fillAmount = Mathf.Lerp(playerLife.fillAmount, health/maxHealth, 10f * Time.deltaTime);
+        playerLife.fillAmount = Mathf.Lerp(playerLife.fillAmount, playerHealth / playerMaxHealth, 10f * Time.deltaTime);
 
         //playerLifeTMPro.text = $"{health}/{maxHealth}";
 
-        playerAmmo.fillAmount = Mathf.Lerp(playerAmmo.fillAmount, ammo/maxAmmo, 10f * Time.deltaTime);
+        playerAmmo.fillAmount = Mathf.Lerp(playerAmmo.fillAmount, ammo / maxAmmo, 10f * Time.deltaTime);
         playerAmmoTMPro.text = $"{ammo}/{maxAmmo}";
         coinsTMP.text = CoinManager.instance.totalCoins.ToString();
     }
 
-    private void UpdateEnemyUI()
-    {
-        //Mueve el fill amount entre 0 y 3
-        enemyLife.fillAmount = Mathf.Lerp(enemyLife.fillAmount, health / maxHealth, 10f * Time.deltaTime);
-    }
-
-    public void UpdateCharacterHealth(float playerHealth, float playerMaxHealth)
+    public void UpdatePlayerHealth(float health, float maxHealth)
     {
         //De esta forma los valores iniciales no son null
-        health = playerHealth;
-        maxHealth = playerMaxHealth;
+        playerHealth = health;
+        playerMaxHealth = maxHealth;
+    }
+
+    public void UpdateEnemyHealth(float health, float maxHealth)
+    {
+        //De esta forma los valores iniciales no son null
+        enemyHealth = health;
+        enemyMaxHealth = maxHealth;
     }
 
     public void UpdateCharacterAmmo(float playerAmmo, float playerMaxAmmo)
@@ -151,7 +149,7 @@ public class UIManager : MonoBehaviour
 
     public void OpenInteracitonPanel(extraNPCInteraction interactionType)
     {
-        if(interactionType == extraNPCInteraction.Shop)
+        if (interactionType == extraNPCInteraction.Shop)
         {
             ToggleShop();
             DialogueManager.instance.ToggleDialogue(false);

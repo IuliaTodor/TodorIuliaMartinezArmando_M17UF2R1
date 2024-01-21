@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: Kebab
   itemName: Kebab Aiguablava
-  image: {fileID: 21300000, guid: 902ca85787e128c42baf2490031e3b6d, type: 3}
+  image: {fileID: 21300000, guid: 7c2e036168cf48442addd9db70c6a8cd, type: 3}
   description: "Una nutritiva delicia de Aiguablava D\xF6nner - Restaurante - Pizzer\xEDa
     (est\xE1 tan grasienta que parece un momo de la grasa)."
   type: 1
@@ -23,3 +23,4 @@ MonoBehaviour:
   maxAmount: 99
   amount: 0
   cost: 101
+  dropChance: 80

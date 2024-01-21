@@ -193,6 +193,17 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    private void DiscardItem(int index)
+    {
+        if (items[index] == null)
+        {
+            return;
+        }
+
+        items[index] = null;
+        InventoryUI.instance.DrawItemOnInventory(null, 0, index);
+    }
+
     #region EventManager
     private void SlotInteractionResponse(interactionType type, int index)
     {
@@ -204,6 +215,7 @@ public class Inventory : MonoBehaviour
             case interactionType.Equip:
                 break;
             case interactionType.Discard:
+                DiscardItem(index);
                 break;
         }
     }

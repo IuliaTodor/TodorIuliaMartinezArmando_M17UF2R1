@@ -254,6 +254,7 @@ public class AIManager : CharacterMovement
         yield return new WaitForSeconds(explodeAnim.length);
         FindObjectOfType<AudioManager>().Play("EnemyExplosion");
         DamagePlayer(amount);
+        //HandleEnemyHealth.instance.health = 0;
 
         Destroy(gameObject);
     }

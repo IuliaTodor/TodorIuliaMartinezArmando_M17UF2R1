@@ -23,6 +23,7 @@ public class MenuManager : MonoBehaviour
     public void StartGame()
     {
         GameManager.instance.SceneChange("Example_Iulia1");
+        FindObjectOfType<AudioManager>().StopPlaying("RLMainMenu");
     }
 
     public void MainMenu()

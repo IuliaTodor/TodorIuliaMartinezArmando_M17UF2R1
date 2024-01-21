@@ -1152,6 +1152,81 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1642833377
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1642833379}
+  - component: {fileID: 1642833378}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1642833378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1642833377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5312c7c5bc5ac64a8c7926d5fd1a181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: PlayerDeath
+    clip: {fileID: 8300000, guid: ae526839e6bb419459111091b3160341, type: 3}
+    volume: 0.884
+    pitch: 1.18
+    source: {fileID: 0}
+    loop: 0
+  - name: RLMainMenu
+    clip: {fileID: 8300000, guid: 60ade7657743de64e8d89e02dc3b9941, type: 3}
+    volume: 0.884
+    pitch: 1.42
+    source: {fileID: 0}
+    loop: 1
+  - name: VaporeonProjectile
+    clip: {fileID: 8300000, guid: 200dd2873d0cde34fa97025f588c3636, type: 3}
+    volume: 0.884
+    pitch: 1.42
+    source: {fileID: 0}
+    loop: 0
+  - name: EnemyTackle
+    clip: {fileID: 8300000, guid: 7540a114aea0ec44183dbca957a23a62, type: 3}
+    volume: 0.884
+    pitch: 0.88
+    source: {fileID: 0}
+    loop: 0
+  - name: EnemyExplosion
+    clip: {fileID: 8300000, guid: 813ba5f8bc873184baf218a3d2099eea, type: 3}
+    volume: 0.884
+    pitch: 1.42
+    source: {fileID: 0}
+    loop: 0
+--- !u!4 &1642833379
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1642833377}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.04, y: 2.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1702582708
 GameObject:
   m_ObjectHideFlags: 0
@@ -1399,3 +1474,4 @@ SceneRoots:
   - {fileID: 1519518327}
   - {fileID: 1136410759}
   - {fileID: 1482565627}
+  - {fileID: 1642833379}

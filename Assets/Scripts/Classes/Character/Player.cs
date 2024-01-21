@@ -29,7 +29,7 @@ public class Player : Character, IHealth, IDamage
     public static Action characterDeathEvent;
 
     public BoxCollider2D boxCollider2D;
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     public Animator animator;
     public static Player instance;
     // de nuestra clase Inputs, del new input system
@@ -75,6 +75,7 @@ public class Player : Character, IHealth, IDamage
         health = maxHealth;
         isDead = false;
         UIManager.instance.UpdateCharacterHealth(health, maxHealth);
+        rb.bodyType = RigidbodyType2D.Dynamic;
     }
 
     void Update()
@@ -99,7 +100,11 @@ public class Player : Character, IHealth, IDamage
     {
         isDead = true;
         boxCollider2D.enabled = false;
+        rb.bodyType = RigidbodyType2D.Static;
         characterDeathEvent?.Invoke(); //El ? significa "si no es null". Es decir, si no es null que haga Invoke.
+        StartCoroutine(UIManager.instance.GameOverMenu());
+        FindObjectOfType<AudioManager>().Play("PlayerDeath");
+
     }
 
     public void HandleRespawn()
@@ -109,7 +114,6 @@ public class Player : Character, IHealth, IDamage
         health = maxHealth;
         UIManager.instance.UpdateCharacterHealth(health, maxHealth);
         animator.SetBool(GameManager.instance.characterDeath, false);
-        
     }
 
     //When the player recieves damage

@@ -230,6 +230,7 @@ public class AIManager : CharacterMovement
             attackTransition += Time.deltaTime * speed;
             float interpolation = (-Mathf.Pow(attackTransition, 2) + attackTransition) * 4f;
             transform.position = Vector3.Lerp(enemyInitialPosition, attackPosition, interpolation);
+            FindObjectOfType<AudioManager>().Play("EnemyTackle");
             yield return null;
         }
 
@@ -251,6 +252,7 @@ public class AIManager : CharacterMovement
         anim.SetBool("hasExploded", true);
 
         yield return new WaitForSeconds(explodeAnim.length);
+        FindObjectOfType<AudioManager>().Play("EnemyExplosion");
         DamagePlayer(amount);
 
         Destroy(gameObject);
@@ -263,6 +265,7 @@ public class AIManager : CharacterMovement
     private IEnumerator IProjectile()
     {
         Instantiate(projectile, projectilePosition.position, Quaternion.identity);
+        FindObjectOfType<AudioManager>().Play("VaporeonProjectile");
         yield return true;
     }
 

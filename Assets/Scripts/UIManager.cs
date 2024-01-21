@@ -11,15 +11,17 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject inventoryPanel;
     [SerializeField] private GameObject shopPanel;
     [SerializeField] private GameObject pausePanel;
+    [SerializeField] private GameObject gameOverPanel;
 
     [SerializeField] public Image playerLife;
     [SerializeField] private Image playerAmmo;
+    [SerializeField] private Image enemyLife;
 
     //[SerializeField] private TextMeshProUGUI playerLifeTMPro;
     [SerializeField] private TextMeshProUGUI playerAmmoTMPro;
     [SerializeField] private TextMeshProUGUI coinsTMP;
 
-    public static bool GameIsPaused = false;
+    public bool GameIsPaused = false;
     public float health;
     public float maxHealth;
 
@@ -38,6 +40,11 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         UpdateCharacterUI();
+
+        if(!HandleEnemyHealth.instance.isDead)
+        {
+            UpdateEnemyUI();
+        }
         TogglePauseMenu();
     }
 
@@ -51,6 +58,12 @@ public class UIManager : MonoBehaviour
         playerAmmo.fillAmount = Mathf.Lerp(playerAmmo.fillAmount, ammo/maxAmmo, 10f * Time.deltaTime);
         playerAmmoTMPro.text = $"{ammo}/{maxAmmo}";
         coinsTMP.text = CoinManager.instance.totalCoins.ToString();
+    }
+
+    private void UpdateEnemyUI()
+    {
+        //Mueve el fill amount entre 0 y 3
+        enemyLife.fillAmount = Mathf.Lerp(enemyLife.fillAmount, health / maxHealth, 10f * Time.deltaTime);
     }
 
     public void UpdateCharacterHealth(float playerHealth, float playerMaxHealth)
@@ -85,6 +98,22 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public IEnumerator GameOverMenu()
+    {
+        if (Player.instance.isDead)
+        {
+            yield return new WaitForSeconds(1);
+            Time.timeScale = 0f;
+            gameOverPanel.SetActive(true);
+        }
+
+        else
+        {
+            Time.timeScale = 1.0f;
+            gameOverPanel.SetActive(false);
+        }
+    }
+
     public void Resume()
     {
         pausePanel.SetActive(false);
@@ -103,12 +132,17 @@ public class UIManager : MonoBehaviour
 
     #region Paneles
 
-    public void ToggleInventory()
+    public void OpenInventory()
     {
-        //Pone el active al contrario de cómo está actualmente
+        Time.timeScale = 0f;
         inventoryPanel.SetActive(!inventoryPanel.activeSelf);
     }
 
+    public void CloseInventory()
+    {
+        Time.timeScale = 1f;
+        inventoryPanel.SetActive(!inventoryPanel.activeSelf);
+    }
     public void ToggleShop()
     {
         //Pone el active al contrario de cómo está actualmente

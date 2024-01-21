@@ -117,7 +117,8 @@ public class DialogueManager : MonoBehaviour
             {
                 string finalText = AvailableNPC.npcDialogue.finalText;
                 ShowAnimatedText(finalText);
-                showFinalText = true;
+                showFinalText = true;  
+
                 return;
             }
 

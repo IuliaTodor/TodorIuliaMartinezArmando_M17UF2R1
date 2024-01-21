@@ -1197,7 +1197,7 @@ MonoBehaviour:
   - name: VaporeonProjectile
     clip: {fileID: 8300000, guid: 200dd2873d0cde34fa97025f588c3636, type: 3}
     volume: 0.884
-    pitch: 1.42
+    pitch: 1.38
     source: {fileID: 0}
     loop: 0
   - name: EnemyTackle

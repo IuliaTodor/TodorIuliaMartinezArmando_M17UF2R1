@@ -22,4 +22,5 @@ MonoBehaviour:
   maxAmount: 10
   amount: 0
   cost: 6
+  dropChance: 60
   HPRestore: 2

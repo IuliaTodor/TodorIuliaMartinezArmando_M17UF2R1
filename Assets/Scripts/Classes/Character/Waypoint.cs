@@ -5,17 +5,25 @@ using UnityEngine;
 public class Waypoint : MonoBehaviour
 {
     [SerializeField] public Vector3[] points;
-    public Vector3 currentPosition { get; set; } //La posición actual del NPC
-    private bool isGameInitialized;
+    /// <summary>
+    /// La posición actual del personaje
+    /// </summary>
+    public Vector3 currentPosition { get; set; } 
 
+    private bool isGameInitialized;
 
     private void Start()
     {
         isGameInitialized = true;
+        //La posición actual empieza siendo la del personaje
         currentPosition = transform.position;
     }
 
-    //Para saber la posición del punto al cual nos queremos mover
+    /// <summary>
+    /// Para saber la posición del punto al cual nos queremos mover
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
     public Vector3 GetMovementPosition(int index)
     {
         return currentPosition + points[index];
@@ -29,7 +37,6 @@ public class Waypoint : MonoBehaviour
             currentPosition = transform.position;
         }
 
-
         if(points == null || points.Length <= 0)
         {
             return;
@@ -38,7 +45,8 @@ public class Waypoint : MonoBehaviour
         for(int i = 0; i < points.Length; i++)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(points[i] + currentPosition, 0.5f); //Dibujamos una esfera de 0.5 de radio para marcar donde están los puntos
+            //Dibujamos una esfera de 0.5 de radio para marcar donde están los puntos
+            Gizmos.DrawWireSphere(points[i] + currentPosition, 0.5f); 
             //Si no nos pasamos de la cantidad de puntos en el array
             if(i < points.Length - 1)
             {

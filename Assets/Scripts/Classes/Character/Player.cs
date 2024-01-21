@@ -6,11 +6,11 @@ using UnityEngine.InputSystem;
 
 public class Player : Character, IHealth, IDamage
 {
-    public Inventory inventory;
     public Weapon activeWeapon;
 
+    //Esta propiedad solo es para que aparezca en el inspector, ya que el get set no lo permit�a. Lo mismo para maxHealth
     [SerializeField]
-    private float _health; //Esta propiedad solo es para que aparezca en el inspector, ya que el get set no lo permit�a. Lo mismo para maxHealth
+    private float _health;
     public float health
     {
         get { return _health; }
@@ -34,6 +34,7 @@ public class Player : Character, IHealth, IDamage
     public static Player instance;
     // de nuestra clase Inputs, del new input system
     private Inputs input;
+
     private Vector2 movementVector = Vector2.zero;
 
     void Awake()
@@ -80,14 +81,7 @@ public class Player : Character, IHealth, IDamage
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            HandleDamage(1);
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            RestoreHealth(2);
-        }
+
     }
 
     private void FixedUpdate() 
@@ -95,11 +89,14 @@ public class Player : Character, IHealth, IDamage
         rb.velocity = movementVector * speed;
     }
 
-    //Death logic
+    /// <summary>
+    /// Lógica de muerte
+    /// </summary>
     public void HandleDeath()
     {
         isDead = true;
         boxCollider2D.enabled = false;
+
         rb.bodyType = RigidbodyType2D.Static;
         characterDeathEvent?.Invoke(); //El ? significa "si no es null". Es decir, si no es null que haga Invoke.
         StartCoroutine(UIManager.instance.GameOverMenu());
@@ -115,7 +112,10 @@ public class Player : Character, IHealth, IDamage
         animator.SetBool(GameManager.instance.characterDeath, false);
     }
 
-    //When the player recieves damage
+    /// <summary>
+    /// Cuando el jugador recibe daño
+    /// </summary>
+    /// <param name="damageTaken"></param>
     public void HandleDamage(float damageTaken)
     {
         if (health > 0)
@@ -125,15 +125,19 @@ public class Player : Character, IHealth, IDamage
 
             if (health <= 0)
             {
+                //Así evitamos números negativos
                 health = 0;
                 UIManager.instance.UpdatePlayerHealth(health, maxHealth);
                 HandleDeath();
             }
         }
     }
+    /// <summary>
+    /// Restaura vida si al jugador le queda vida y no est� muerto 
+    /// </summary>
+    /// <param name="healthRestored"></param>
     public void RestoreHealth(int healthRestored)
-    {
-        //Restaura vida si al jugador le queda vida y no est� muerto 
+    {      
         if (health < maxHealth && !isDead)
         {
             health += healthRestored;

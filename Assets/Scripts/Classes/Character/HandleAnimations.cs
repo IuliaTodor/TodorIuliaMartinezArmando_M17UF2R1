@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Maneja la respuesta del evento de muerte del personaje
+/// </summary>
 public class HandleAnimations : MonoBehaviour
 {
     private Animator _animator;
@@ -11,21 +14,9 @@ public class HandleAnimations : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    private void Start()
-    {
-
-    }
-
-    private void Update()
-    {
-        
-    }
-
     private void characterDeathResponse()
     {
         _animator.SetBool(GameManager.instance.characterDeath, true);
-
-        Debug.Log("rip");
     }
 
     private void OnEnable()

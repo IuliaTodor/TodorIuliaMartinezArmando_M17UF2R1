@@ -10640,6 +10640,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 161741894772529616, guid: 429b567ee6317a74ebd589bc2dcb66eb, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 59001423e6934684ca9d622385ea8be6, type: 3}
     - target: {fileID: 1165380376388604045, guid: 429b567ee6317a74ebd589bc2dcb66eb, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -10884,6 +10888,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1742179077182936458, guid: b94411cc066b1c84b9ffcc430399c0f9, type: 3}
+      propertyPath: enemyDamage
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742179077182936458, guid: b94411cc066b1c84b9ffcc430399c0f9, type: 3}
+      propertyPath: timeForNextAttack
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3496977898929675250, guid: b94411cc066b1c84b9ffcc430399c0f9, type: 3}
       propertyPath: m_Name
       value: GreenMonke
@@ -11020,6 +11032,10 @@ PrefabInstance:
       propertyPath: enemyLife
       value: 
       objectReference: {fileID: 3329387981355610957}
+    - target: {fileID: 5780346294506917781, guid: b3b6c6317ddb89547bb4e0089851a22d, type: 3}
+      propertyPath: enemyDamage
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11282,7 +11298,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 123657789423184888, guid: 9167f3d6ff5ad064f9a583b1a1fe7e94, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 863743854609926698, guid: 9167f3d6ff5ad064f9a583b1a1fe7e94, type: 3}
+      propertyPath: timeForNextAttack
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 863743854609926698, guid: 9167f3d6ff5ad064f9a583b1a1fe7e94, type: 3}
+      propertyPath: enemyAttackCooldown
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1160726351812090677, guid: 9167f3d6ff5ad064f9a583b1a1fe7e94, type: 3}
       propertyPath: enemyLife

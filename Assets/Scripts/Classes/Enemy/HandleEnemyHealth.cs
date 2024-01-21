@@ -30,7 +30,7 @@ public class HandleEnemyHealth : MonoBehaviour, IHealth, IDamage
 
     private void Awake()
     {
-        instance = this; 
+        instance = this;
     }
 
     void Start()
@@ -44,11 +44,6 @@ public class HandleEnemyHealth : MonoBehaviour, IHealth, IDamage
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            HandleDamage(1);
-        }
-
         if (!isDead)
         {
             UpdateEnemyUI();
@@ -57,7 +52,6 @@ public class HandleEnemyHealth : MonoBehaviour, IHealth, IDamage
 
     public void UpdateEnemyUI()
     {
-        //Mueve el fill amount entre 0 y 3
         enemyLife.fillAmount = Mathf.Lerp(enemyLife.fillAmount, health / maxHealth, 10f * Time.deltaTime);
     }
 

@@ -8,7 +8,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "AI/Actions/ActivateCharacterMovement")]
 public class ActivateCharacterMovement : AIAction
 {
-
     public override void Execute(AIManager manager)
     {
         if(manager.characterMovement == null)

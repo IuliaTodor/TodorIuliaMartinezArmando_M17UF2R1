@@ -13,15 +13,4 @@ public class Character : MonoBehaviour, IMovement
 
     [SerializeField]
     private float _speed;
-
-
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
 }

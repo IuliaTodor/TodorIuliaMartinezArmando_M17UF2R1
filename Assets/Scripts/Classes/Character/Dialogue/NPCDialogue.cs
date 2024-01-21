@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
+/// <summary>
+/// Los tipos de interacción extra de NPC
+/// </summary>
 public enum extraNPCInteraction
 {
     GiveItem,
@@ -15,22 +16,18 @@ public enum extraNPCInteraction
 public class NPCDialogue : ScriptableObject
 {
     public string NPCName;
-    public Sprite icon;
-    public bool hasExtraInteraction;
-    public extraNPCInteraction extraInteraction;
-    public Item NPCGiveItem;
     public int NPCGiveItemAmount;
+    public bool hasExtraInteraction;
+
+    public extraNPCInteraction extraInteraction;
+    public Sprite icon;
+    public Item NPCGiveItem;
     public Item requiredItemForExchange;
-    
 
+ 
     [TextArea]public string initialText;
-
     public DialogueText[] dialogue;
-
     [TextArea] public string finalText;
-    
-    [TextArea]public string afterExtraInteractionText;
-
 }
 [Serializable]
 public class DialogueText

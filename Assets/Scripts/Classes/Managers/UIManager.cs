@@ -85,13 +85,11 @@ public class UIManager : MonoBehaviour
             if (GameIsPaused)
             {
                 Resume();
-                //FindObjectOfType<AudioManager>().Play("ClosePauseMenu");
             }
 
             else
             {
                 Pause();
-
             }
         }
     }
@@ -117,7 +115,6 @@ public class UIManager : MonoBehaviour
         pausePanel.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
-        //FindObjectOfType<AudioManager>().Play("ClosePauseMenu");
     }
 
     void Pause()

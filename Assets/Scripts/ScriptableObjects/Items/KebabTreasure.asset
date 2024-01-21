@@ -22,5 +22,5 @@ MonoBehaviour:
   isStackable: 1
   maxAmount: 99
   amount: 0
-  cost: 101
+  cost: 2
   dropChance: 80

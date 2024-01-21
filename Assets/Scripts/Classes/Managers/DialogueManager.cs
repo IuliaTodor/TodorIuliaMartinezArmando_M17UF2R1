@@ -20,6 +20,15 @@ public class DialogueManager : MonoBehaviour
     private bool animatedDialogue;
     private bool showFinalText;
 
+   void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
     private void Start()
     {
         dialogueSequence = new Queue<string>();
@@ -60,11 +69,6 @@ public class DialogueManager : MonoBehaviour
         }
 
 
-    }
-
-    private void Awake()
-    {
-        instance = this;
     }
 
     public void ToggleDialogue(bool state)

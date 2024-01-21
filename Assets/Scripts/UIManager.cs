@@ -15,12 +15,13 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] public Image playerLife;
     [SerializeField] private Image playerAmmo;
+    [SerializeField] private Image enemyLife;
 
     //[SerializeField] private TextMeshProUGUI playerLifeTMPro;
     [SerializeField] private TextMeshProUGUI playerAmmoTMPro;
     [SerializeField] private TextMeshProUGUI coinsTMP;
 
-    public static bool GameIsPaused = false;
+    public bool GameIsPaused = false;
     public float health;
     public float maxHealth;
 
@@ -39,6 +40,11 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         UpdateCharacterUI();
+
+        if(!HandleEnemyHealth.instance.isDead)
+        {
+            UpdateEnemyUI();
+        }
         TogglePauseMenu();
     }
 
@@ -52,6 +58,12 @@ public class UIManager : MonoBehaviour
         playerAmmo.fillAmount = Mathf.Lerp(playerAmmo.fillAmount, ammo/maxAmmo, 10f * Time.deltaTime);
         playerAmmoTMPro.text = $"{ammo}/{maxAmmo}";
         coinsTMP.text = CoinManager.instance.totalCoins.ToString();
+    }
+
+    private void UpdateEnemyUI()
+    {
+        //Mueve el fill amount entre 0 y 3
+        enemyLife.fillAmount = Mathf.Lerp(enemyLife.fillAmount, health / maxHealth, 10f * Time.deltaTime);
     }
 
     public void UpdateCharacterHealth(float playerHealth, float playerMaxHealth)

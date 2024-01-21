@@ -103,7 +103,8 @@ public class Player : Character, IHealth, IDamage
         rb.bodyType = RigidbodyType2D.Static;
         characterDeathEvent?.Invoke(); //El ? significa "si no es null". Es decir, si no es null que haga Invoke.
         StartCoroutine(UIManager.instance.GameOverMenu());
-        
+        FindObjectOfType<AudioManager>().Play("PlayerDeath");
+
     }
 
     public void HandleRespawn()
@@ -113,7 +114,6 @@ public class Player : Character, IHealth, IDamage
         health = maxHealth;
         UIManager.instance.UpdateCharacterHealth(health, maxHealth);
         animator.SetBool(GameManager.instance.characterDeath, false);
-        
     }
 
     //When the player recieves damage

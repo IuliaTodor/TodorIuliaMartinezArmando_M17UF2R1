@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Unity.PlasticSCM.Editor.WebApi;
+using System.Linq;
 using UnityEngine;
 
 public static class MapUtils
@@ -66,10 +66,8 @@ public static class MapUtils
             if (possiblePosition.x >= 1 && possiblePosition.y >= 1 &&
             possiblePosition.x <= bitmap.GetLength(0) - 2 && possiblePosition.y <= bitmap.GetLength(1) - 2){
                 if (HasAvailableSpace(bitmap, possiblePosition, newRoom.slots, newDirection)) {
-                    Debug.Log("Tried in: " + possiblePosition.x + ", " +  possiblePosition.y + " with " + newRoom.roomName + "\n direction:" + newDirection);
                     newPosition = possiblePosition;
                     PaintRoom(ref bitmap, newPosition, ref newRoom, newDirection);
-                    newRoom.doors = GetAdjacentRoomDoors(bitmap, newPosition, newRoom, newDirection);
                     rooms.Add(newRoom);
                 } else if (bitmap[(int)possiblePosition.y, (int)possiblePosition.x] > 0)
                 { 
@@ -83,12 +81,52 @@ public static class MapUtils
         // Añadir habitaciones hasta que se acabe nRooms
         if (nRooms > 0) AddRandomRooms(ref bitmap, ref currentPosition, ref rooms, nRooms - 1);
     }
-
-    private static List<Door> GetAdjacentRoomDoors(int[,] bitmap, Vector2 position, Room room, Vector2 direction) {
-
+    // Devuelve las salas adjacentes a la tuya
+    public static List<Door> GetAdjacentRoomDoors(int[,] bitmap, Room room) {
         List<Door> doors = new List<Door>();
+        List<Room> r = GameObject.FindObjectOfType<MapManager>().roomLayout;
+
+        // checkea todas las posiciones alrededor de la sala
+        int i = 0;
+        foreach (Vector2 pos in room.positionsInMap) {
+            if (pos != new Vector2(-1, -1)){
+                if ((int)pos.x + 1 < bitmap.GetLength(0)) {
+                    if (bitmap[(int)pos.y, (int)pos.x + 1] != 0 && ! room.positionsInMap.Contains(pos + Vector2.right)) {
+                        doors.Add(new Door(WhosThereIndex(pos + Vector2.right), new Vector3(1, 0, i)));
+                    }
+                }
+                if ((int)pos.y + 1 < bitmap.GetLength(1)) {
+                    if (bitmap[(int)pos.y + 1, (int)pos.x] != 0 && ! room.positionsInMap.Contains(pos + Vector2.up)) {
+                        doors.Add(new Door(WhosThereIndex(pos + Vector2.up), new Vector3(0, 1, i)));
+                    }
+                }
+                if ((int)pos.y - 1 >= 0) {
+                    if (bitmap[(int)pos.y - 1, (int)pos.x] != 0 && ! room.positionsInMap.Contains(pos + Vector2.down)) {
+                        doors.Add(new Door(WhosThereIndex(pos + Vector2.down), new Vector3(0, -1, i)));
+                    }
+                }
+                if ((int)pos.x - 1 >= 0) {
+                    if (bitmap[(int)pos.y, (int)pos.x - 1] != 0 && ! room.positionsInMap.Contains(pos + Vector2.left)) {
+                        doors.Add(new Door(WhosThereIndex(pos + Vector2.left), new Vector3(-1, 0, i)));
+                    }
+                }
+            }
+            i++;
+        }
         return doors;
     }
+
+    // Devuelve que sala dentro del array de salas (roomLayout) hay en esa posicion del bitmap
+    private static int WhosThereIndex(Vector2 there) {
+        List<Room> r = GameObject.FindObjectOfType<MapManager>().roomLayout;
+        for(int i = 0; i < r.Count; i++) {
+            foreach(Vector2 pos in r[i].positionsInMap) {
+                if (pos == there) return i;
+            }
+        }
+        return -1; // error?
+    }
+
     // Devuelve una sala aleatoria de la lista
     private static Room RandomRoom(Vector2 direction) {
         /*
@@ -104,7 +142,6 @@ public static class MapUtils
 
     // Pinta la sala especificada en el lugar especificado
     private static void PaintRoom(ref int[,] bitmap, Vector2 position, ref Room room, Vector2 direction) {
-        Debug.Log("I LOVE PAINT: " + position.x + ", " + position.y);
         bitmap[(int)position.y, (int)position.x] += 1;
         // VOY A MATARME ENCIMA DE ESTAS 4 LINEAS DE CÓDIGO
         // if (direction == Vector2.right) { position.x -= 1; } // no tocar
@@ -114,8 +151,9 @@ public static class MapUtils
 
         for(int i = 0; i < 4; i++ ) {
                 if (room.slots[i] == 1) {
+                    room.positionsInMap[i] = new Vector2((int)position.x + i % 2, (int)position.y + i / 2);
                     bitmap[(int)position.y + i / 2, (int)position.x + i % 2] += 1;
-            }
+            } else room.positionsInMap[i] = new Vector2(-1, -1);
         }
     }
 

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
@@ -8,13 +7,20 @@ using UnityEngine.Tilemaps;
 public class MapManager : MonoBehaviour
 {
     private AssetBundle dungeonBundle;
+    private Vector2Int[,] possibleDoorPositions = new Vector2Int[,] {
+                            { new Vector2Int(8, -2), new Vector2Int(0, 4), new Vector2Int(0, -9), new Vector2Int(-9, -2)}, // cool
+                            { new Vector2Int(26, -2), new Vector2Int(18, 4), new Vector2Int(18, -9), new Vector2Int(9, -2)},
+                            { new Vector2Int(8, -12), new Vector2Int(0, -9), new Vector2Int(0, -21), new Vector2Int(-9, -12)},
+                            { new Vector2Int(26, -12), new Vector2Int(18, -9), new Vector2Int(18, -21), new Vector2Int(9, -12)}
+                            };
+
     private Inputs input;
-    private int[,] bitmap;
+    public int[,] bitmap;
     private string filePath = Application.dataPath + "\\Scripts\\Classes\\Map\\Maps\\";
-    private List<Room> roomLayout;
+    public List<Room> roomLayout = new List<Room>();
     Dictionary<string, Tilemap> tilemaps = new Dictionary<string, Tilemap>();
-    [SerializeField] public bool debug = true;
-    [SerializeField] public bool canSave = false;
+    [SerializeField] public bool debug;
+    [SerializeField] public bool canSave;
     [SerializeField] BoundsInt bounds;
     // IMPORTANTE: CAMBIAR EL FILENAME Y FILEPATH PARA QUE CONCUERDE CON LA CARPETA MAPS
     [SerializeField] string filename = "example.json";
@@ -53,16 +59,15 @@ public class MapManager : MonoBehaviour
                     map.SetTile(tile.position, dungeonBundle.LoadAsset<TileBase>("assets/tiles/" + tile.tilename + ".asset"));
                 }
             }
-
         }
 
         Debug.Log(filename + " loaded.");
     }
 
     public void LoadRoom(Room nextRoom){
+        DoorTo doorTo = GameObject.FindObjectOfType<DoorTo>();
         // Yeah hice copiar y pegar idk
         List<TilemapData> data = FileHandler.ReadListFromJSON<TilemapData>(filePath + nextRoom.roomName);
-        Debug.Log(filePath);
         foreach(var mapData in data) {
             if(!tilemaps.ContainsKey(mapData.key))
             {
@@ -75,7 +80,43 @@ public class MapManager : MonoBehaviour
                     map.SetTile(tile.position, dungeonBundle.LoadAsset<TileBase>("assets/tiles/" + tile.tilename + ".asset"));
                 }
             }
-        }
+
+            if (mapData.key == "Door") {
+                foreach (Door d in nextRoom.doors) {
+
+                    int size = 0;
+                    foreach(int n in nextRoom.slots) if (n == 1) size++;
+                    
+                    if (nextRoom.slots[0] == 0 && size == 1) {
+                        for (int i = 1; i < nextRoom.slots.Length; i++) if (nextRoom.slots[i] == 1) d.doorPosition.z -= i;
+                    }
+
+                    if (nextRoom.slots[0] == 0 && nextRoom.slots[2] == 0 && size == 2) d.doorPosition.z -= 1;
+                    else if (nextRoom.slots[0] == 0 && nextRoom.slots[1] == 0 && size == 2) d.doorPosition.z -= 2;
+
+
+                    Vector2 doorPos = new Vector3(0, 0, 0);
+                    switch((Vector2)d.doorPosition) {
+                        case Vector2 v when v.Equals(Vector2.right):
+                            doorPos = possibleDoorPositions[(int)d.doorPosition.z, 0];
+                            break;
+                        case Vector2 v when v.Equals(Vector2.down):
+                            doorPos = possibleDoorPositions[(int)d.doorPosition.z, 1];
+                            break;
+                        case Vector2 v when v.Equals(Vector2.up):
+                            doorPos = possibleDoorPositions[(int)d.doorPosition.z, 2];
+                            break;
+                        case Vector2 v when v.Equals(Vector2.left):
+                            doorPos = possibleDoorPositions[(int)d.doorPosition.z, 3];
+                            break;
+                    }
+                    map.SetTile( new Vector3Int((int)doorPos.x, (int)doorPos.y, 1), dungeonBundle.LoadAsset<TileBase>("assets/tiles/dungeon_tileset_66.asset"));
+                    doorTo.doors.Add(d);
+                    doorTo.doorPositions.Add(new Vector2(doorPos.x, doorPos.y));
+                }
+            }
+        } 
+        Debug.Log(nextRoom.roomName + " loaded.");
     }
 
     void SaveRoom(InputAction.CallbackContext value) 
@@ -120,6 +161,11 @@ public class MapManager : MonoBehaviour
         Vector2 nextPosition = new Vector2 (UnityEngine.Random.Range(1, bitmap.GetLength(0) - 1), UnityEngine.Random.Range(1, bitmap.GetLength(1) - 1));
 
         MapUtils.AddRandomRooms(ref bitmap, ref nextPosition, ref roomLayout, 10);
+        foreach(Room r in roomLayout) {
+            r.doors = MapUtils.GetAdjacentRoomDoors(bitmap, r);
+        }
+
+        LoadRoom(roomLayout[0]);
 
         MapUtils.DebugMap(bitmap);
     }
@@ -159,8 +205,12 @@ public class Room {
 
 [Serializable]
 public class Door {
-    public Room goTo;
+    public int goToIndex;
     // La posición (dirección) de la puerta + el bit en el que está
     public Vector3 doorPosition;
-    
+
+    public Door(int index, Vector3 pos) {
+        this.goToIndex = index;
+        this.doorPosition = pos;
+    }
 }

@@ -155,9 +155,9 @@ MonoBehaviour:
   debug: 0
   canSave: 0
   bounds:
-    m_Position: {x: -10, y: -9, z: 0}
-    m_Size: {x: 20, y: 14, z: 0}
-  filename: base1000.json
+    m_Position: {x: -9, y: 5, z: 0}
+    m_Size: {x: 36, y: -28, z: 0}
+  filename: base1101.json
 --- !u!4 &30786753
 Transform:
   m_ObjectHideFlags: 0

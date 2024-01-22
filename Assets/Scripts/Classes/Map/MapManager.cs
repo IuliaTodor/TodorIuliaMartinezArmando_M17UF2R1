@@ -1,36 +1,29 @@
 using System;
-using System.CodeDom.Compiler;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
-using System.IO;
-using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
 
 public class MapManager : MonoBehaviour
 {
-    private string[] tileList;
     private AssetBundle dungeonBundle;
-    [SerializeField] public bool debug = true;
-    [Serialize] public bool canSave = false;
     private Inputs input;
+    private int[,] bitmap;
+    private string filePath = Application.dataPath + "\\Scripts\\Classes\\Map\\Maps\\";
+    private List<Room> roomLayout;
     Dictionary<string, Tilemap> tilemaps = new Dictionary<string, Tilemap>();
+    [SerializeField] public bool debug = true;
+    [SerializeField] public bool canSave = false;
     [SerializeField] BoundsInt bounds;
     // IMPORTANTE: CAMBIAR EL FILENAME Y FILEPATH PARA QUE CONCUERDE CON LA CARPETA MAPS
-    private string filePath = Application.dataPath + "\\Scripts\\Classes\\Map\\Maps\\";
     [SerializeField] string filename = "example.json";
     void Start()
     {
         dungeonBundle = AssetBundle.LoadFromFile(Application.dataPath + "\\AssetBundles\\dungeon_tiles");
-        tileList = dungeonBundle.GetAllAssetNames();
-
-        MapUtils.getRoomPool(filePath);
-        input = new Inputs();
         initTilemaps();
+
+        input = new Inputs();
         if (debug) 
         {
             input.Enable();
@@ -60,15 +53,16 @@ public class MapManager : MonoBehaviour
                     map.SetTile(tile.position, dungeonBundle.LoadAsset<TileBase>("assets/tiles/" + tile.tilename + ".asset"));
                 }
             }
+
         }
 
         Debug.Log(filename + " loaded.");
     }
 
-    public void LoadRoom(string nextRoom){
+    public void LoadRoom(Room nextRoom){
         // Yeah hice copiar y pegar idk
-        List<TilemapData> data = FileHandler.ReadListFromJSON<TilemapData>(filePath + nextRoom + ".json");
-
+        List<TilemapData> data = FileHandler.ReadListFromJSON<TilemapData>(filePath + nextRoom.roomName);
+        Debug.Log(filePath);
         foreach(var mapData in data) {
             if(!tilemaps.ContainsKey(mapData.key))
             {
@@ -101,7 +95,7 @@ public class MapManager : MonoBehaviour
 
                     if (tile != null)
                     {
-                        TileInfo tileInfo = new TileInfo(tile, pos, tile.name);
+                        TileInfo tileInfo = new TileInfo(pos, tile.name);
                         mapData.tiles.Add(tileInfo);
                     }
                 }
@@ -121,15 +115,13 @@ public class MapManager : MonoBehaviour
 
     void initFloor()
     {
-        Room[,] floorLayout = new Room[5,5];
-        int[,] nextPosition = new int[UnityEngine.Random.Range(0, 5), UnityEngine.Random.Range(0, 5)];
+        
+        bitmap = new int[10, 10];
+        Vector2 nextPosition = new Vector2 (UnityEngine.Random.Range(1, bitmap.GetLength(0) - 1), UnityEngine.Random.Range(1, bitmap.GetLength(1) - 1));
 
-        for (int i = 0; i < 6; i++) MapUtils.AddRoom(ref floorLayout, nextPosition);
+        MapUtils.AddRandomRooms(ref bitmap, ref nextPosition, ref roomLayout, 10);
 
-        MapUtils.GetRoomSlots(filename);
-
-        floorLayout[1, 1] = new Room("base1100.json", MapUtils.GetRoomSlots("base1100.json"));
-        MapUtils.DebugMap(floorLayout);
+        MapUtils.DebugMap(bitmap);
     }
 
 }
@@ -141,13 +133,11 @@ public class TilemapData {
 
 [Serializable]
 public class TileInfo {
-    public TileBase tile;
     public Vector3Int position;
     public string tilename;
 
-    public TileInfo(TileBase tile, Vector3Int pos, string name) {
+    public TileInfo(Vector3Int pos, string name) {
         
-        this.tile = tile;
         this.position = pos;
         this.tilename = name.ToLower();
         
@@ -157,11 +147,20 @@ public class TileInfo {
 [Serializable]
 public class Room {
     public string roomName;
-    public bool isRoot = false;
-    public int[,] slots = new int[2,2]; 
+    public int[] slots; 
+    public List<Door> doors;
+    public Vector2[] positionsInMap = new Vector2[4];
 
-    public Room(string name, int[,] slots) {
+    public Room(string name) {
         this.roomName = name;
-        this.slots = slots;
+        this.slots = MapUtils.GetRoomSlots(name);
     }
+}
+
+[Serializable]
+public class Door {
+    public Room goTo;
+    // La posición (dirección) de la puerta + el bit en el que está
+    public Vector3 doorPosition;
+    
 }

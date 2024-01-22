@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class Character : MonoBehaviour, IMovement
 {
-    public float speed { get; set; }
-
-    void Start()
+    [SerializeField]
+    public float speed
     {
+        get { return _speed; }
+        set { _speed = value; }
     }
 
-    void Update()
-    {
-        
-    }
+    [SerializeField]
+    private float _speed;
 }

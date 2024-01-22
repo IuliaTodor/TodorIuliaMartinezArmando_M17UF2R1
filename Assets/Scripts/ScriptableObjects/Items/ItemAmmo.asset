@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: Ammo
   itemName: Ammo
-  image: {fileID: 21300000, guid: 9e7cee97a9a2e6e4283729980fab6c42, type: 3}
+  image: {fileID: 21300000, guid: 95a61a3e584ba204590b38096a52f5b8, type: 3}
   description: "Munici\xF3n"
   type: 2
   isConsumible: 1
   isStackable: 1
   maxAmount: 30
   amount: 0
+  cost: 2
+  dropChance: 50
   ammoRestore: 2

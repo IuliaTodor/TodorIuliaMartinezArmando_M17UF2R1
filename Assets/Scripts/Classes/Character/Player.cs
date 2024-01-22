@@ -6,20 +6,20 @@ using UnityEngine.InputSystem;
 
 public class Player : Character, IHealth, IDamage
 {
-    public Inventory inventory;
     public Weapon activeWeapon;
 
+    //Esta propiedad solo es para que aparezca en el inspector, ya que el get set no lo permit�a. Lo mismo para maxHealth
     [SerializeField]
-    private int _health; //Esta propiedad solo es para que aparezca en el inspector, ya que el get set no lo permit�a. Lo mismo para maxHealth
-    public int health
+    private float _health;
+    public float health
     {
         get { return _health; }
         set { _health = value; }
     }
 
     [SerializeField]
-    private int _maxHealth;
-    public int maxHealth
+    private float _maxHealth;
+    public float maxHealth
     {
         get { return _maxHealth; }
         set { _maxHealth = value; }
@@ -29,11 +29,12 @@ public class Player : Character, IHealth, IDamage
     public static Action characterDeathEvent;
 
     public BoxCollider2D boxCollider2D;
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     public Animator animator;
     public static Player instance;
     // de nuestra clase Inputs, del new input system
     private Inputs input;
+
     private Vector2 movementVector = Vector2.zero;
 
     void Awake()
@@ -74,19 +75,13 @@ public class Player : Character, IHealth, IDamage
     {
         health = maxHealth;
         isDead = false;
-        UIManager.instance.UpdateCharacterHealth(health, maxHealth);
+        UIManager.instance.UpdatePlayerHealth(health, maxHealth);
+        rb.bodyType = RigidbodyType2D.Dynamic;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            HandleDamage(1);
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            RestoreHealth(2);
-        }
+
     }
 
     private void FixedUpdate() 
@@ -94,42 +89,55 @@ public class Player : Character, IHealth, IDamage
         rb.velocity = movementVector * speed;
     }
 
-    //Death logic
+    /// <summary>
+    /// Lógica de muerte
+    /// </summary>
     public void HandleDeath()
     {
         isDead = true;
         boxCollider2D.enabled = false;
+
+        rb.bodyType = RigidbodyType2D.Static;
         characterDeathEvent?.Invoke(); //El ? significa "si no es null". Es decir, si no es null que haga Invoke.
+        StartCoroutine(UIManager.instance.GameOverMenu());
+        FindObjectOfType<AudioManager>().Play("PlayerDeath");
     }
 
     public void HandleRespawn()
     {
         boxCollider2D.enabled = true;
-        isDead = true;
+        isDead = false;
         health = maxHealth;
-        UIManager.instance.UpdateCharacterHealth(health, maxHealth);
+        UIManager.instance.UpdatePlayerHealth(health, maxHealth);
         animator.SetBool(GameManager.instance.characterDeath, false);
-        
     }
 
-    //When the player recieves damage
-    public void HandleDamage(int damageTaken)
+    /// <summary>
+    /// Cuando el jugador recibe daño
+    /// </summary>
+    /// <param name="damageTaken"></param>
+    public void HandleDamage(float damageTaken)
     {
         if (health > 0)
         {
             health -= damageTaken;
-            UIManager.instance.UpdateCharacterHealth(health, maxHealth);
+            UIManager.instance.UpdatePlayerHealth(health, maxHealth);
 
             if (health <= 0)
             {
-                UIManager.instance.UpdateCharacterHealth(health, maxHealth);
+                //Así evitamos números negativos
+                health = 0;
+                UIManager.instance.UpdatePlayerHealth(health, maxHealth);
                 HandleDeath();
             }
         }
     }
+    /// <summary>
+    /// Restaura vida si al jugador le queda vida y no est� muerto 
+    /// </summary>
+    /// <param name="healthRestored"></param>
     public void RestoreHealth(int healthRestored)
-    {
-        //Restaura vida si al jugador le queda vida y no est� muerto 
+    {      
         if (health < maxHealth && !isDead)
         {
             health += healthRestored;
@@ -139,7 +147,7 @@ public class Player : Character, IHealth, IDamage
             {
                 health = maxHealth;
             }
-            UIManager.instance.UpdateCharacterHealth(health, maxHealth);
+            UIManager.instance.UpdatePlayerHealth(health, maxHealth);
         }
     }
 }

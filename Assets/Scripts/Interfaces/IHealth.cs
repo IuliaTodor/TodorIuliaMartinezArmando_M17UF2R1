@@ -4,8 +4,9 @@ using UnityEngine;
 
 public interface IHealth
 {
-    public int health { get; set; }
-    public bool isDead {get;set;}
+    public float health { get; set; }
+    public float maxHealth { get; set; }
+    public bool isDead { get; set; }
     public void HandleDeath() {}
     public void HandleDamage() {}
 }

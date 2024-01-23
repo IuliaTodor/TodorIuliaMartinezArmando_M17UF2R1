@@ -10,6 +10,7 @@ En este avanzas por varias habitaciones, venciendo a enemigos, recogiendo objeto
 * **Click derecho**: Recargar
 * **E**: Interactuar con NPCs
 * **Q**: Abrir el inventario
+* **M**: Mover objetos en el inventario
 
 ## Bugs
 

@@ -37,7 +37,7 @@ public class ShopManager : MonoBehaviour
     {
         for (int i = 0; i < items.Length; i++)
         {
-            shopPanels[i].itemNameTMP.text = items[i].name;
+            shopPanels[i].itemNameTMP.text = items[i].itemName;
             shopPanels[i].costTMP.text = items[i].cost.ToString();
             shopPanels[i].itemImage.sprite = items[i].image;
             shopPanels[i].descriptionTMP.text = items[i].description;

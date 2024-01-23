@@ -1221,7 +1221,7 @@ MonoBehaviour:
     loop: 0
   - name: EnemyExplosion
     clip: {fileID: 8300000, guid: 813ba5f8bc873184baf218a3d2099eea, type: 3}
-    volume: 0.884
+    volume: 0.54
     pitch: 1.42
     source: {fileID: 0}
     loop: 0

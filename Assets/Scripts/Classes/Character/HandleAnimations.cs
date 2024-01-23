@@ -17,8 +17,6 @@ public class HandleAnimations : MonoBehaviour
 
     private void Update()
     {
-        //_animator.SetFloat("XMovement", Player.instance.movementVector.x);
-        //_animator.SetFloat("XMovement", Player.instance.movementVector.y);
     }
 
     private void characterDeathResponse()

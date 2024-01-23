@@ -30,14 +30,12 @@ public class MenuManager : MonoBehaviour
     public void MainMenu()
     {
         GameManager.instance.SceneChange("MainMenu");
+        DataManager.instance.SaveData();
     }
 
     public void ExitGame()
     {
-        if (UnityEditor.EditorApplication.isPlaying)
-        {
-            Application.Quit();
-        }
+        Application.Quit();
     }
 
 }

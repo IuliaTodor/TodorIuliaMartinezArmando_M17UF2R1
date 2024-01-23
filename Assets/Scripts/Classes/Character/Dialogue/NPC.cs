@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPC : Character
+public class NPC : MonoBehaviour
 {
     [SerializeField] private GameObject npcButtonInteraction;
     [SerializeField] public NPCDialogue npcDialogue;

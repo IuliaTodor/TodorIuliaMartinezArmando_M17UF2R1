@@ -6,8 +6,6 @@ using UnityEngine.InputSystem;
 
 public class Player : Character, IHealth, IDamage
 {
-    public Weapon activeWeapon;
-
     //Esta propiedad solo es para que aparezca en el inspector, ya que el get set no lo permit�a. Lo mismo para maxHealth
     [SerializeField]
     private float _health;
@@ -98,11 +96,6 @@ public class Player : Character, IHealth, IDamage
         UIManager.instance.UpdatePlayerHealth(health, maxHealth);
         rb.bodyType = RigidbodyType2D.Dynamic;
         EnableLayer(idleLayer);
-    }
-
-    void Update()
-    {
-
     }
 
     private void FixedUpdate() 

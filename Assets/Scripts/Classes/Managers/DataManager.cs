@@ -20,18 +20,6 @@ public class DataManager : MonoBehaviour
         SaveFiles = Application.persistentDataPath + "/GameData.json"; //La localización de la carpeta donde están las SaveFiles
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            LoadData();
-        }
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            SaveData();
-        }
-
-    }
     [RuntimeInitializeOnLoadMethod]
     public void LoadData()
     {
@@ -54,7 +42,7 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    private void SaveData()
+    public void SaveData()
     {
         GameData newData = new GameData();
         {

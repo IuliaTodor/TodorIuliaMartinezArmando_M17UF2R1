@@ -21,6 +21,6 @@ MonoBehaviour:
   isStackable: 1
   maxAmount: 10
   amount: 0
-  cost: 3
+  cost: 100
   dropChance: 60
   HPRestore: 2

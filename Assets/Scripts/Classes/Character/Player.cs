@@ -37,6 +37,9 @@ public class Player : Character, IHealth, IDamage
 
     private Vector2 movementVector = Vector2.zero;
 
+    [SerializeField] public string idleLayer;
+    [SerializeField] private string walkLayer;
+
     void Awake()
     {
         instance = this;
@@ -65,10 +68,27 @@ public class Player : Character, IHealth, IDamage
         movementVector = value.ReadValue<Vector2>();
         animator.SetFloat("XMovement", value.ReadValue<Vector2>().x);
         animator.SetFloat("YMovement", value.ReadValue<Vector2>().y);
+        EnableLayer(walkLayer);
     }
     void OnMovementCancelled(InputAction.CallbackContext value)
     {
         movementVector = Vector2.zero;
+        EnableLayer(idleLayer);
+    }
+
+    /// <summary>
+    /// Cambia las layers del Animator entre Walk y Idle
+    /// </summary>
+    /// <param name="layer"></param>
+    public void EnableLayer(string layer)
+    {
+        //Primero apaga todas las layers para evitar problemas
+        for(int i = 0; i <animator.layerCount; i++)
+        {
+            animator.SetLayerWeight(i, 0); //El peso del layer. 0 desactivado. 1 activado
+        }
+
+        animator.SetLayerWeight(animator.GetLayerIndex(layer), 1);
     }
 
     void Start()
@@ -77,6 +97,7 @@ public class Player : Character, IHealth, IDamage
         isDead = false;
         UIManager.instance.UpdatePlayerHealth(health, maxHealth);
         rb.bodyType = RigidbodyType2D.Dynamic;
+        EnableLayer(idleLayer);
     }
 
     void Update()
@@ -101,15 +122,6 @@ public class Player : Character, IHealth, IDamage
         characterDeathEvent?.Invoke(); //El ? significa "si no es null". Es decir, si no es null que haga Invoke.
         StartCoroutine(UIManager.instance.GameOverMenu());
         FindObjectOfType<AudioManager>().Play("PlayerDeath");
-    }
-
-    public void HandleRespawn()
-    {
-        boxCollider2D.enabled = true;
-        isDead = false;
-        health = maxHealth;
-        UIManager.instance.UpdatePlayerHealth(health, maxHealth);
-        animator.SetBool(GameManager.instance.characterDeath, false);
     }
 
     /// <summary>

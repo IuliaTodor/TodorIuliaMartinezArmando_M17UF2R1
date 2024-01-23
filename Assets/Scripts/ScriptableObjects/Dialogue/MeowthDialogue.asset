@@ -19,7 +19,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 490549b4cfa6bcc40babd1406ce3f84a, type: 3}
   NPCGiveItem: {fileID: 0}
   requiredItemForExchange: {fileID: 0}
-  initialText: Che pibe, tienes fuego?
+  initialText: Nano, tienes fuego?
   dialogue:
   - Dialoguetext: "No, esto que tengo aqu\xED no es cobre, es un PORRO"
   - Dialoguetext: Mira, para que aprenas te doy un consejo.

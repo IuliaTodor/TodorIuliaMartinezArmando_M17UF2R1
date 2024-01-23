@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 public class MapManager : MonoBehaviour
 {
     private AssetBundle dungeonBundle;
-    private Vector2Int[,] possibleDoorPositions = new Vector2Int[,] {
+    public Vector2Int[,] possibleDoorPositions = new Vector2Int[,] {
                             { new Vector2Int(8, -2), new Vector2Int(0, 4), new Vector2Int(0, -9), new Vector2Int(-9, -2)}, // cool
                             { new Vector2Int(26, -2), new Vector2Int(18, 4), new Vector2Int(18, -9), new Vector2Int(9, -2)},
                             { new Vector2Int(8, -12), new Vector2Int(0, -9), new Vector2Int(0, -21), new Vector2Int(-9, -12)},
@@ -75,6 +75,7 @@ public class MapManager : MonoBehaviour
             }
             var map = tilemaps[mapData.key];
             map.ClearAllTiles(); 
+
             if(mapData.tiles != null && mapData.tiles.Count > 0) {
                 foreach(TileInfo tile in mapData.tiles){
                     map.SetTile(tile.position, dungeonBundle.LoadAsset<TileBase>("assets/tiles/" + tile.tilename + ".asset"));
@@ -82,6 +83,8 @@ public class MapManager : MonoBehaviour
             }
 
             if (mapData.key == "Door") {
+                doorTo.doors = new List<Door>();
+                doorTo.doorPositions = new List<Vector2>();
                 foreach (Door d in nextRoom.doors) {
 
                     int size = 0;

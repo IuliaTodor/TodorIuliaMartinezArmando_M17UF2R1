@@ -1,12 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using JetBrains.Annotations;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class Weapon : MonoBehaviour //Debería heredar de Item
+public class Weapon : MonoBehaviour //Deberï¿½a heredar de Item
 
 {
+
+    private Inputs input;
+    private GameObject player;
+    private Camera cam;
+    private Rigidbody2D rb;
+    private GameObject sprite;
+    private Vector3 offsetPlayer = new Vector3(1.5f, 0, 0);
     [SerializeField] public int ammo;
     [SerializeField] public int maxAmmo;
+    [SerializeField] GameObject projectile;
 
     public int damage;
 
@@ -14,6 +26,7 @@ public class Weapon : MonoBehaviour //Debería heredar de Item
 
     private void Awake()
     {
+        input = new Inputs();
         instance = this; 
     }
 
@@ -22,25 +35,63 @@ public class Weapon : MonoBehaviour //Debería heredar de Item
     {
         ammo = maxAmmo;
         UpdateAmmoBar();
+        player = GameObject.FindGameObjectWithTag("Player");
+        cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        rb = GetComponent<Rigidbody2D>();
+        sprite = transform.GetChild(0).gameObject;
     }
+
+    void OnEnable()
+    {
+        input.Enable();
+        input.Player.Reload.performed += HandleReload;
+        input.Player.Attack.performed += HandleShoot;
+    }
+    void OnDisable()
+    {
+        input.Disable();
+        input.Player.Reload.performed -= HandleReload;
+        input.Player.Attack.performed -= HandleShoot;
+    }
+
+
+
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.G))
-        {
-            UseAmmo(1);
-        }
+        HandleAim();
+    }
 
-        if(Input.GetKeyDown(KeyCode.H))
-        {
-            RegenerateAmmo(1);
+    /// <summary>
+    /// Rotates around player
+    /// </summary>
+    public void HandleAim() {
+        Vector3 aim = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1));
+        Vector3 direction = aim - transform.position;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        rb.rotation = angle;
+        transform.position = player.transform.position;
+    }
+
+    public void HandleShoot(InputAction.CallbackContext value)
+    {
+        if (ammo > 0) {
+            UseAmmo(1);
+            StartCoroutine(IProjectile());
         }
     }
 
-    public void HandleShoot()
+    private IEnumerator IProjectile()
     {
-        
+        Instantiate(projectile, sprite.transform.position, Quaternion.identity);
+        FindObjectOfType<AudioManager>().Play("VaporeonProjectile");
+        yield return true;
+    }
+
+    public void HandleReload(InputAction.CallbackContext value)
+    {
+        RegenerateAmmo(maxAmmo - ammo);
     }
 
     public void UseAmmo(int ammoQuantity)
@@ -54,12 +105,12 @@ public class Weapon : MonoBehaviour //Debería heredar de Item
 
     public void RegenerateAmmo(int ammoRegenerateQuantity)
     {
-        //Restaura vida si al jugador le queda vida y no está muerto 
+        //Restaura vida si al jugador le queda vida y no estï¿½ muerto 
         if (ammo < maxAmmo && !Player.instance.isDead)
         {
             ammo += ammoRegenerateQuantity;
 
-            //Así la vida no supera a la máxima si recupera más del total
+            //Asï¿½ la vida no supera a la mï¿½xima si recupera mï¿½s del total
             if (ammo > maxAmmo)
             {
                 ammo = maxAmmo;

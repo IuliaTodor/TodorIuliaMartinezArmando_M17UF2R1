@@ -35,7 +35,10 @@ public static class MapUtils
         Debug.Log(mappedLayout);
     }
 
-    // Los nombres contendrán la información de cuantos slots ocupa la sala
+    /// <summary>
+    /// Los nombres contendrán la información de cuantos slots ocupa la sala
+    /// </summary>
+    /// <param name="floorName"></param>
     public static int[] GetRoomSlots(string floorName) {
         int[] slots = new int[4];
         slots[0] = int.Parse($"{floorName[floorName.Length - 9]}");
@@ -45,7 +48,13 @@ public static class MapUtils
         return slots;
     }
 
-    // Añadir una habitación random nueva al layout
+    /// <summary>
+    /// Añadir una habitación random nueva al layout
+    /// </summary>
+    /// <param name="bitmap"></param>
+    /// <param name="currentPosition"></param>
+    /// <param name="rooms"></param>
+    /// <param name="nRooms"></param>
     public static void AddRandomRooms(ref int[,] bitmap, ref Vector2 currentPosition, ref List<Room> rooms, int nRooms) {
         // Posibilidad random de bifurcar el camino
         if (UnityEngine.Random.Range(0, 8) == 4 && nRooms > 2) 
@@ -81,7 +90,11 @@ public static class MapUtils
         // Añadir habitaciones hasta que se acabe nRooms
         if (nRooms > 0) AddRandomRooms(ref bitmap, ref currentPosition, ref rooms, nRooms - 1);
     }
-    // Devuelve las salas adjacentes a la tuya
+    /// <summary>
+    /// Devuelve las salas adjacentes a la tuya
+    /// </summary>
+    /// <param name="bitmap"></param>
+    /// <param name="room"></param>
     public static List<Door> GetAdjacentRoomDoors(int[,] bitmap, Room room) {
         List<Door> doors = new List<Door>();
         List<Room> r = GameObject.FindObjectOfType<MapManager>().roomLayout;
@@ -116,7 +129,10 @@ public static class MapUtils
         return doors;
     }
 
-    // Devuelve que sala dentro del array de salas (roomLayout) hay en esa posicion del bitmap
+    /// <summary>
+    /// Devuelve que sala dentro del array de salas (roomLayout) hay en esa posicion del bitmap
+    /// </summary>
+    /// <param name="there"></param>
     private static int WhosThereIndex(Vector2 there) {
         List<Room> r = GameObject.FindObjectOfType<MapManager>().roomLayout;
         for(int i = 0; i < r.Count; i++) {
@@ -127,7 +143,10 @@ public static class MapUtils
         return -1; // error?
     }
 
-    // Devuelve una sala aleatoria de la lista
+    /// <summary>
+    /// Devuelve una sala aleatoria de la lista
+    /// </summary>
+    /// <param name="direction"></param>
     private static Room RandomRoom(Vector2 direction) {
         /*
         La selección de salas dependerá de la dirección de la que venga:   v
@@ -140,7 +159,13 @@ public static class MapUtils
         return new Room(possibleRooms[UnityEngine.Random.Range(0, possibleRooms.Count)]);
     }
 
-    // Pinta la sala especificada en el lugar especificado
+    /// <summary>
+    /// Pinta la sala especificada en el lugar especificado
+    /// </summary>
+    /// <param name="bitmap"></param>
+    /// <param name="position"></param>
+    /// <param name="room"></param>
+    /// <param name="direction"></param>
     private static void PaintRoom(ref int[,] bitmap, Vector2 position, ref Room room, Vector2 direction) {
         bitmap[(int)position.y, (int)position.x] += 1;
         // VOY A MATARME ENCIMA DE ESTAS 4 LINEAS DE CÓDIGO

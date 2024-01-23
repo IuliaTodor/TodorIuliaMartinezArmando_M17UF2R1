@@ -11,6 +11,7 @@ En este avanzas por varias habitaciones, venciendo a enemigos, recogiendo objeto
 * **E**: Interactuar con NPCs
 * **Q**: Abrir el inventario
 * **M**: Mover objetos en el inventario
+* **Esc** Menú Pausa
 
 ## Bugs
 

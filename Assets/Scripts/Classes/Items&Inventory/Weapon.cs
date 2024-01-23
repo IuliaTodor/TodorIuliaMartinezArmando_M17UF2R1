@@ -2,14 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using JetBrains.Annotations;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Weapon : MonoBehaviour //Deber�a heredar de Item
-
 {
-
     private Inputs input;
     private GameObject player;
     private Camera cam;
@@ -54,10 +51,6 @@ public class Weapon : MonoBehaviour //Deber�a heredar de Item
         input.Player.Attack.performed -= HandleShoot;
     }
 
-
-
-
-    // Update is called once per frame
     void Update()
     {
         HandleAim();

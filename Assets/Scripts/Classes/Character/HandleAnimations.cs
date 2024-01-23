@@ -8,15 +8,21 @@ using UnityEngine;
 public class HandleAnimations : MonoBehaviour
 {
     private Animator _animator;
+    
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
     }
 
+    private void Update()
+    {
+    }
+
     private void characterDeathResponse()
     {
         _animator.SetBool(GameManager.instance.characterDeath, true);
+        Player.instance.EnableLayer(Player.instance.idleLayer);
     }
 
     private void OnEnable()

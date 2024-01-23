@@ -13,13 +13,12 @@ MonoBehaviour:
   m_Name: DeoxysDialogue
   m_EditorClassIdentifier: 
   NPCName: Deoxys
-  icon: {fileID: 21300000, guid: 9bbab1c730a6eca40a58a67cdf627978, type: 3}
+  NPCGiveItemAmount: 0
   hasExtraInteraction: 1
   extraInteraction: 2
+  icon: {fileID: 21300000, guid: 9bbab1c730a6eca40a58a67cdf627978, type: 3}
   NPCGiveItem: {fileID: 0}
-  NPCGiveItemAmount: 0
   requiredItemForExchange: {fileID: 0}
-  initialText: "Hola pibe, tengo mercanc\xEDa"
+  initialText: "Che, tengo mercanc\xEDa"
   dialogue: []
   finalText: Un placer hacer negocios contigo
-  afterExtraInteractionText: 

@@ -13,12 +13,16 @@ MonoBehaviour:
   m_Name: MeowthDialogue
   m_EditorClassIdentifier: 
   NPCName: "Badalon\xE9s"
-  icon: {fileID: 21300000, guid: 490549b4cfa6bcc40babd1406ce3f84a, type: 3}
+  NPCGiveItemAmount: 0
   hasExtraInteraction: 0
   extraInteraction: 0
-  initialText: Che pibe, tienes fuego?
+  icon: {fileID: 21300000, guid: 490549b4cfa6bcc40babd1406ce3f84a, type: 3}
+  NPCGiveItem: {fileID: 0}
+  requiredItemForExchange: {fileID: 0}
+  initialText: Nano, tienes fuego?
   dialogue:
   - Dialoguetext: "No, esto que tengo aqu\xED no es cobre, es un PORRO"
-  - Dialoguetext: "Ya te ve\xEDas con ganas de rob\xE1rmelo, eh? Rumano de mierda."
-  finalText: "Va, por esta te la perdono, que los 20 porros que llevo encima me han
-    puesto muy contento, pero a la pr\xF3xima no te lo paso."
+  - Dialoguetext: Mira, para que aprenas te doy un consejo.
+  - Dialoguetext: "Puedes mover items en el inventario seleccion\xE1ndolo con M y
+      volviendo a darle en un espacio vac\xEDo."
+  finalText: "Ale, d\xE9jame en paz con mi ni\xF1o. Y d\xFAchate."

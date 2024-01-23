@@ -24,7 +24,6 @@ public class PlayerProjectile : MonoBehaviour
 
     void Start()
     {
-
         boxCollider2D = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
@@ -47,11 +46,9 @@ public class PlayerProjectile : MonoBehaviour
     {
         if ( collision.name == "RedMonke" || collision.name == "BlueMonke" || collision.name == "GreenMonke")
         {
-
             collision.gameObject.GetComponent<HandleEnemyHealth>().HandleDamage(1);
             // Hacer que la colision reciba daño
 
-            // Debug.Log(AIManager.instance.enemyDamage);
             boxCollider2D.enabled = false;
         }
     }

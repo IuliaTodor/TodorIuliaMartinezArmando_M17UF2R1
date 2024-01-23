@@ -22,21 +22,20 @@ public class MenuManager : MonoBehaviour
 
     public void StartGame()
     {
-        GameManager.instance.SceneChange("Example_Iulia1");
+        //GameManager.instance.SceneChange("Example_Iulia1");
+        GameManager.instance.SceneChange("MainScene");
         FindObjectOfType<AudioManager>().StopPlaying("RLMainMenu");
     }
 
     public void MainMenu()
     {
         GameManager.instance.SceneChange("MainMenu");
+        DataManager.instance.SaveData();
     }
 
     public void ExitGame()
     {
-        if (UnityEditor.EditorApplication.isPlaying)
-        {
-            Application.Quit();
-        }
+        Application.Quit();
     }
 
 }

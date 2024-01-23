@@ -14,7 +14,6 @@ public class ShopManager : MonoBehaviour
     public Button[] decreaseButton;
     public int[] itemAmount;
 
-    // Start is called before the first frame update
     void Start()
     {
         //Para que solo aparezcan los que tienen algún Power Up asignado
@@ -37,7 +36,7 @@ public class ShopManager : MonoBehaviour
     {
         for (int i = 0; i < items.Length; i++)
         {
-            shopPanels[i].itemNameTMP.text = items[i].name;
+            shopPanels[i].itemNameTMP.text = items[i].itemName;
             shopPanels[i].costTMP.text = items[i].cost.ToString();
             shopPanels[i].itemImage.sprite = items[i].image;
             shopPanels[i].descriptionTMP.text = items[i].description;
